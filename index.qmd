@@ -1,6 +1,6 @@
 ---
-title: "Report Sample"
-author: "Student name"
+title: "Random Forest (Decision Trees)"
+author: "Victor Richerson"
 date: '`r Sys.Date()`'
 format:
   html:
