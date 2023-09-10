@@ -19,6 +19,9 @@ editor:
 
 ## Introduction
 
+This is an introduction to Random Forests.  Random forests are ensembles of decision trees.The method is attributed to Dr. Leo Breiman [@breiman2001] of the University of Berkeley in California.  Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology.  Additionally Dr. Breiman wrote some statistical software using the methodology.
+
+<!--
 This is an introduction to Kernel regression, which is a non-parametric
 estimator that estimates the conditional expectation of two variables
 which is random. The goal of a kernel regression is to discover the
@@ -27,9 +30,11 @@ non-linear relationship, kernel estimator or kernel smoothing is the
 main method to estimate the curve for non-parametric statistics. In
 kernel estimator, weight function is known as kernel function
 [@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+-->
 
 ## Methods
 
+<!--
 The common non-parametric regression model is
 $Y_i = m(X_i) + \varepsilon_i$, where $Y_i$ can be defined as the sum of
 the regression function value $m(x)$ for $X_i$. Here $m(x)$ is unknown
@@ -44,11 +49,13 @@ $$
 M_n(x) = \sum_{i=1}^{n} W_n (X_i) Y_i  \tag{1}
 $$ $W_n(x)$ is the sum of weights that belongs to all real numbers.
 Weights are positive numbers and small if $X_i$ is far from $x$.
+-->
 
 ## Analysis and Results
 
 ### Data and Vizualisation
 
+<!--
 A study was conducted to determine how...
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
@@ -79,9 +86,52 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
   
 
 ```
+-->
 
 ### Statistical Modeling
 
 ### Conlusion
 
 ## References
+
+<!--
+@article{wang2014,
+  title={Generalized estimating equations in longitudinal data analysis: a review and recent developments},
+  author={Wang, Ming},
+  journal={Advances in Statistics},
+  volume={2014},
+  year={2014},
+  publisher={Hindawi}
+}
+
+@Manual{R-base,
+  title = {R: A Language and Environment for Statistical
+           Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2019},
+  url = {https://www.R-project.org},
+}
+
+@book{efr2008,
+  title={Nonparametric Curve Estimation: Methods, Theory, and Applications},
+  author={Efromovich, S.},
+  isbn={9780387226385},
+  lccn={99013253},
+  series={Springer Series in Statistics},
+  url={https://books.google.com/books?id=mdoLBwAAQBAJ},
+  year={2008},
+  publisher={Springer New York}
+}
+@article{bro2014principal,
+  title={Principal component analysis},
+  author={Bro, Rasmus and Smilde, Age K},
+  journal={Analytical methods},
+  volume={6},
+  number={9},
+  pages={2812--2831},
+  year={2014},
+  publisher={Royal Society of Chemistry}
+}
+-->
