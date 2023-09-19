@@ -19,7 +19,7 @@ editor:
 
 ## Introduction
 
-This is an introduction to Random Forests.  Random forests are ensembles of decision trees.The method is attributed to Dr. Leo Breiman [@breiman2001] of the University of Berkeley in California.  Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology.  Additionally Dr. Breiman wrote some statistical software using the methodology.
+This is an introduction to Random Forests.  Random forests are ensembles of decision trees.The method is attributed to Dr. Leo Breiman [@breiman2001] of the University of Berkeley in California.  Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology.  Additionally Dr. Breiman wrote some statistical software using the methodology.  The methodology has a basis in bagging and boosting methodologies and randomization ideas presented by TG Dietterich.
 
 <!--
 This is an introduction to Kernel regression, which is a non-parametric
