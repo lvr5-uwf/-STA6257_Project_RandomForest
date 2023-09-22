@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Victor Richerson">
-<meta name="dcterms.date" content="2023-09-19">
+<meta name="dcterms.date" content="2023-09-21">
 
 <title>Random Forest (Decision Trees)</title>
 <style>
@@ -3027,7 +3027,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 19, 2023</p>
+      <p class="date">September 21, 2023</p>
     </div>
   </div>
   
@@ -3039,7 +3039,7 @@ vertical-align: -.125em;
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This is an introduction to Random Forests. Random forests are ensembles of decision trees.The method is attributed to Dr. Leo Breiman <span class="citation" data-cites="breiman2001">(<a href="#ref-breiman2001" role="doc-biblioref">Breiman 2001</a>)</span> of the University of Berkeley in California. Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology. Additionally Dr. Breiman wrote some statistical software using the methodology. The methodology has a basis in bagging and boosting methodologies and randomization ideas presented by TG Dietterich.</p>
+<p>This is an introduction to Random Forests. Random forests are ensembles of decision trees that incorporate a randomization feature to increase predictive accuracy. The method is attributed to Dr. Leo Breiman <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span> of the University of Berkeley in California. Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology. Dr. Breiman previously worked on expanding decision trees with the Bagging Predictors methodology <span class="citation" data-cites="Breiman1996">(<a href="#ref-Breiman1996" role="doc-biblioref">Breiman 1996</a>)</span> and was exposed to the work of other researchers with the AdaBoost (adaptive boosting) methodology. The random forest methodology has a basis in randomization ideas presented by Thomas G. Dietterich of Oregon State University <span class="citation" data-cites="Dietterich2000">(<a href="#ref-Dietterich2000" role="doc-biblioref">Dietterich 2000</a>)</span>. The random forest method of using ensembles of randomized decision trees has been a popular research topic with many other researchers looking into ways to expand on and improve the method. “Rotation Forest” was a method to incorporate random forest with PCA to create new features <span class="citation" data-cites="Rodriguez2006">(<a href="#ref-Rodriguez2006" role="doc-biblioref">Rodriguez, Kuncheva, and Alonso 2006</a>)</span>. This method was just one of many to follow on and improve the original random forest methodology.</p>
 <!--
 This is an introduction to Kernel regression, which is a non-parametric
 estimator that estimates the conditional expectation of two variables
@@ -3184,8 +3184,17 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-breiman2001" class="csl-entry" role="listitem">
-Breiman, Leo. 2001. <span>“Random Forests.”</span> <em>Machine Learning</em> 45: 5–32.
+<div id="ref-Breiman1996" class="csl-entry" role="listitem">
+Breiman, Leo. 1996. <span>“Bagging Predictors.”</span> <em>Machine Learning</em> 123–140.
+</div>
+<div id="ref-Breiman2001" class="csl-entry" role="listitem">
+———. 2001. <span>“Random Forests.”</span> <em>Machine Learning</em> 45: 5–32.
+</div>
+<div id="ref-Dietterich2000" class="csl-entry" role="listitem">
+Dietterich, Thomas G. 2000. <span>“An Experimental Comparison of Three Methods for Constructing Ensembles of Decision Trees: Bagging, Boosting, and Randomization.”</span> <em>Machine Learning</em> 40: 139–57.
+</div>
+<div id="ref-Rodriguez2006" class="csl-entry" role="listitem">
+Rodriguez, Juan J., Ludmilla I. Kuncheva, and Carlos J. Alonso. 2006. <span>“Rotation Forest: A New Classifier Ensemble Method.”</span> <em>IEEE Transactions On Pattern Analysis And Machine Intelligence</em> 28 (10): 1619–30.
 </div>
 </div></section></div></main>
 <!-- /main column -->
