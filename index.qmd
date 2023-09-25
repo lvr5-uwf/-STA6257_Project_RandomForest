@@ -1,6 +1,9 @@
 ---
 title: "Random Forest (Decision Trees)"
-author: "Victor Richerson"
+#author ref https://quarto.org/docs/journals/authors.html
+author: 
+- name: "Danielle Novinski"
+- name: "Victor Richerson"
 date: '`r Sys.Date()`'
 format:
   html:
