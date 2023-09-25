@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Victor Richerson">
-<meta name="dcterms.date" content="2023-09-21">
+<meta name="dcterms.date" content="2023-09-24">
 
 <title>Random Forest (Decision Trees)</title>
 <style>
@@ -3027,7 +3027,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 21, 2023</p>
+      <p class="date">September 24, 2023</p>
     </div>
   </div>
   
@@ -3039,17 +3039,32 @@ vertical-align: -.125em;
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This is an introduction to Random Forests. Random forests are ensembles of decision trees that incorporate a randomization feature to increase predictive accuracy. The method is attributed to Dr. Leo Breiman <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span> of the University of Berkeley in California. Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology. Dr. Breiman previously worked on expanding decision trees with the Bagging Predictors methodology <span class="citation" data-cites="Breiman1996">(<a href="#ref-Breiman1996" role="doc-biblioref">Breiman 1996</a>)</span> and was exposed to the work of other researchers with the AdaBoost (adaptive boosting) methodology. The random forest methodology has a basis in randomization ideas presented by Thomas G. Dietterich of Oregon State University <span class="citation" data-cites="Dietterich2000">(<a href="#ref-Dietterich2000" role="doc-biblioref">Dietterich 2000</a>)</span>. The random forest method of using ensembles of randomized decision trees has been a popular research topic with many other researchers looking into ways to expand on and improve the method. “Rotation Forest” was a method to incorporate random forest with PCA to create new features <span class="citation" data-cites="Rodriguez2006">(<a href="#ref-Rodriguez2006" role="doc-biblioref">Rodriguez, Kuncheva, and Alonso 2006</a>)</span>. This method was just one of many to follow on and improve the original random forest methodology.</p>
+<p>This is an introduction to random forests, a machine learning method widely used in a variety of applications such as ecology, medicine, astronomy, agriculture, traffic, and bioinformatics <span class="citation" data-cites="Fawagreh2014">(<a href="#ref-Fawagreh2014" role="doc-biblioref">Fawagreh, Gaber, and Elyan 2014</a>)</span>. Random forest is an ensemble learning method composed of multiple decision trees. Breiman <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span> proposed random forests to improve on decision trees for regression and classification tasks. Since this initial paper, many studies have been proposed to improve and extend the random forest method as well as use random forest for classification and regression techniques in a variety of applications. Our paper will provide an overview of the existing research and methods used.</p>
 <!--
-This is an introduction to Kernel regression, which is a non-parametric
-estimator that estimates the conditional expectation of two variables
-which is random. The goal of a kernel regression is to discover the
-non-linear relationship between two random variables. To discover the
-non-linear relationship, kernel estimator or kernel smoothing is the
-main method to estimate the curve for non-parametric statistics. In
-kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
+This is an introduction to Random Forests.  Random forests are ensembles of decision trees that incorporate a randomization feature to increase predictive accuracy.  The method is attributed to Dr. Leo Breiman [@Breiman2001] of the University of Berkeley in California.  Dr. Breiman is well known and has prior work with Classification and Regression Trees, a textbook on decision tree methodology.  Dr. Breiman previously worked on expanding decision trees with the Bagging Predictors methodology [@Breiman1996] and was exposed to the work of other researchers with the AdaBoost (adaptive boosting) methodology.  The random forest methodology has a basis in randomization ideas presented by Thomas G. Dietterich of Oregon State University [@Dietterich2000].  The random forest method of using ensembles of randomized decision trees has been a popular research topic with many other researchers looking into ways to expand on and improve the method.  "Rotation Forest" was a method to incorporate random forest with PCA to create new features [@Rodriguez2006].  This method was just one of many to follow on and improve the original random forest methodology.
 -->
+</section>
+<section id="literature-review" class="level2">
+<h2 class="anchored" data-anchor-id="literature-review">Literature Review</h2>
+<section id="background" class="level3">
+<h3 class="anchored" data-anchor-id="background">Background</h3>
+<p>Decision trees are used for predictions and classification in a variety of artificial intelligence and machine learning tasks. Decision trees divide data by fields, creating subsets called nodes. Cut offs are applied based on statistics. <span class="citation" data-cites="deVille2013">(<a href="#ref-deVille2013" role="doc-biblioref">de Ville 2013</a>)</span> Researchers sought to make improvements to decision tree classifiers, such as reducing bias and variance. Resampling training data and using multiple trees reduces bias and variance <span class="citation" data-cites="deVille2013">(<a href="#ref-deVille2013" role="doc-biblioref">de Ville 2013</a>)</span>. Bootstrap aggregating (bagging) and AdaBoost were improvements over the standard decision tree. In addition, other multi-tree solutions came before the random forest method, including voting over multiple trees and using split methods of alternative splits and oblique splits. <span class="citation" data-cites="Breiman1996">(<a href="#ref-Breiman1996" role="doc-biblioref">Breiman 1996</a>)</span>.</p>
+<p>Dietterich <span class="citation" data-cites="Dietterich2000">(<a href="#ref-Dietterich2000" role="doc-biblioref">Dietterich 2000</a>)</span> compared a method of randomizing split of C4.5 decision tree method with AdaBoost and Bagging methods on 33 datasets. This study discussed the effect of randomization leading to a diverse set of decision trees. The performance with “noise” or changed class labels for percentages of the data was also tested since it was noted that AdaBoost did not do well with such noise, due to AdaBoost amplifying the effect of the noise. Rodriguez, et. al. <span class="citation" data-cites="Rodriguez2006">(<a href="#ref-Rodriguez2006" role="doc-biblioref">Rodriguez, Kuncheva, and Alonso 2006</a>)</span> discuss bagging, boosting, and random forest methods. Mentions that adaboost is “equivalent to fitting an additive logistic regression model by a stage-wise estimation procedure,” and mentions that some of the math behind bounds and generalization error have been proven, providing references. Mentions that AdaBoost was successful because of imparting diversity to the ensemble, but there was a tradeoff in accuracy.</p>
+<p>Breiman’s paper, “Random Forests”, <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span> is attributed to be the first mention and description of the random forest technique. Random forest classifiers are based on decision trees which have been generated from random subsets of the features (columns of the data, considering that rows are observations of the data). The classification is determined by majority vote of the decision trees by row. Random Forest can be used for classification (predicting class label) or regression (predicting continuous value). An advantage of random forest is its performance with noisy data, since it is not weighting the data and hence potentially weighting noise. Random forests do not overfit data due to the randomness of the selecting variables to use for the prediction. The “out of bag” estimate for a class label is the estimate using trees that do not contain the class label, and it is a good estimate of overall error rate. Random forests can have similar error rates as another machine learning algorithm, AdaBoost.</p>
+<p>Random forest is an ensemble method. Ensemble learning methods use several methods to solve a problem. Diversity among methods is indicated by methods making different errors. This leads to improvements in classifications <span class="citation" data-cites="Fawagreh2014">(<a href="#ref-Fawagreh2014" role="doc-biblioref">Fawagreh, Gaber, and Elyan 2014</a>)</span>.</p>
+</section>
+<section id="improvements-and-expansions-to-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="improvements-and-expansions-to-random-forest">Improvements and Expansions to Random Forest</h3>
+<p>Random forest extensions include non-parametric test of significance, weighted voting, dynamic integration, weighted random sampling, online random forest, and genetic algorithms <span class="citation" data-cites="Fawagreh2014">(<a href="#ref-Fawagreh2014" role="doc-biblioref">Fawagreh, Gaber, and Elyan 2014</a>)</span>. Verikas et. al <span class="citation" data-cites="Verikas2011">(<a href="#ref-Verikas2011" role="doc-biblioref">Verikas, Gelzinis, and Bacauskiene 2011</a>)</span> found that random forest is sensitive to tuning parameters such as number of variables selected and number of trees. Boulesteix et. al <span class="citation" data-cites="Boulesteix2012">(<a href="#ref-Boulesteix2012" role="doc-biblioref">Boulesteix et al. 2012</a>)</span> suggested modifications to the random forest approach regarding how individual trees are built, the construction of datasets, and how individual predictions are coalesced into one prediction. For example, conditional inference forests are random forests where the predictors of each split are tested for response and allow adjustment for different predictors.</p>
+<p>For parameter tuning, if the number of trees increases with the number of predictors, the randomization process will lead to predictors having a good chance to be selected. Predictor selection is important. Some predictors are not informative. The number of predictors is important in order to moderate the effects of strong and weak predictors. The size of trees is determined by the splitting criteria. The size of the leaves is another parameter wherein good predictors could be overlooked if the leaf size threshold is too small. The authors suggest sampling without replacement to avoid bias, and sampling a certain number of observations from multiple classes <span class="citation" data-cites="Boulesteix2012">(<a href="#ref-Boulesteix2012" role="doc-biblioref">Boulesteix et al. 2012</a>)</span>.</p>
+<p>A study by Gardener et. al <span class="citation" data-cites="Gardner2021">(<a href="#ref-Gardner2021" role="doc-biblioref">Gardner and Chia-Tien Lo 2021</a>)</span> combined Random Forest methodology with PCA to improve precision. PCA is used to create new combination vectors for dependent features in this case. It is ideal to create a new feature when a dependency is found, but this methodology would take the guesswork out of it and automate the creation of the new features. The random forest technique would then incorporate the new features. This allows the single split of a random forest / decision tree to split on a variable that combines multiple features. Another gain is the fact that each tree has unique features due to the PCA being applied on each tree, so the trees are less correlated, which has been shown to increase accuracy.</p>
+<p>Rodriguez et. al <span class="citation" data-cites="Rodriguez2006">(<a href="#ref-Rodriguez2006" role="doc-biblioref">Rodriguez, Kuncheva, and Alonso 2006</a>)</span> also attempted to improve on random forest methods by using PCA to create new features in a “rotation” method to classify the rotated data. The authors mention that rotation may not be optimal for feature extraction and there are other linear transformations/projections that could be used instead of PCA. This study used disjoint sets of data to create different classifiers and that it could use intersecting sets. PCA yields some zero eigenvectors and therefore the number of components varies. This study kept all the components rather than discard low ranking ones. The authors found that the rotation forest method has more accurate but less diverse (but still reasonably diverse) individual classifiers and that contrasts with random forests having more diverse but less accurate classifiers, concluding that the rotation method tested provided superior results.</p>
+<p>Breiman in 2004 <span class="citation" data-cites="Breiman2004">(<a href="#ref-Breiman2004" role="doc-biblioref">Breiman 2004</a>)</span> attempted to create some simple random forest models where mathematical consistency could be proven, referring to a paper by Yi Lin &amp; Yongho Jeon in 2002 (published 2006) <span class="citation" data-cites="Lin2006">(<a href="#ref-Lin2006" role="doc-biblioref">Y. Lin and Jeon 2006</a>)</span>, that showed that the random forest method was a form of adaptive nearest neighbors, as the tree or split is a form of distance measure and therefore it is a nearest neighbor approach. The concept of strong and weak variables was introduced, as well as attempts to create equations to bound variance and bias for this simple model to prove consistency. This introduces the question: problems themselves aren’t always consistent so can the solutions be consistent?</p>
+</section>
+<section id="applications" class="level3">
+<h3 class="anchored" data-anchor-id="applications">Applications</h3>
+<p>As the size of datasets increases (defined by the number of variables exceeding the number of observations), the performance of statistical methods declines; machine learning methods are preferred <span class="citation" data-cites="Verikas2011">(<a href="#ref-Verikas2011" role="doc-biblioref">Verikas, Gelzinis, and Bacauskiene 2011</a>)</span>. Random forests have been used in several studies related to biology and medicine. In such applications, there is usually a relationship between response and predictor variables and sometimes strong correlations between predictors. Random forests have helped with prediction, ranking of influential variables, and identifying variables with interactions. Other studies have found good performance in areas such as predicting customer churn, fraud detection, identifying bacteria and fish, and identifying eye disease <span class="citation" data-cites="Verikas2011">(<a href="#ref-Verikas2011" role="doc-biblioref">Verikas, Gelzinis, and Bacauskiene 2011</a>)</span>. Lin et al <span class="citation" data-cites="Lin2019">(<a href="#ref-Lin2019" role="doc-biblioref">S. Lin, Ji, and Pei 2019</a>)</span> analyzed a very large dataset in order to determine risk factors for diabetes, a disease affecting 425 million adults where chronic high blood sugar has effects such as damaging organs. A study by Beaulac and Rosenthal <span class="citation" data-cites="Beaulac2019">(<a href="#ref-Beaulac2019" role="doc-biblioref">Beaulac and Rosenthal 2019</a>)</span> focused on prediction of students’ major and completion status, finding they were able to predict program completion with 78.84% accuracy and predict choice of major with 47.41% accuracy.</p>
+</section>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
@@ -3184,17 +3199,44 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Beaulac2019" class="csl-entry" role="listitem">
+Beaulac, Cédric, and Jeffrey S. Rosenthal. 2019. <span>“Predicting University Students’ Academic Success and Major Using Random Forests.”</span> <em>Research in Higher Education</em> 60 (7): 1048–64. <a href="http://www.jstor.org/stable/45217777">http://www.jstor.org/stable/45217777</a>.
+</div>
+<div id="ref-Boulesteix2012" class="csl-entry" role="listitem">
+Boulesteix, Anne-Laure, Silke Janitza, Jochen Kruppa, and Inke R. König. 2012. <span>“Overview of Random Forest Methodology and Practical Guidance with Emphasis on Computational Biology and Bioinformatics.”</span> <em>WIREs Data Mining and Knowledge Discovery</em> 2 (6): 493–507. <a href="https://doi.org/10.1002/widm.1072">https://doi.org/10.1002/widm.1072</a>.
+</div>
 <div id="ref-Breiman1996" class="csl-entry" role="listitem">
 Breiman, Leo. 1996. <span>“Bagging Predictors.”</span> <em>Machine Learning</em> 123–140.
 </div>
 <div id="ref-Breiman2001" class="csl-entry" role="listitem">
 ———. 2001. <span>“Random Forests.”</span> <em>Machine Learning</em> 45: 5–32.
 </div>
+<div id="ref-Breiman2004" class="csl-entry" role="listitem">
+———. 2004. <span>“Consistency for a Simple Model of Random Forests: Technical Report 670.”</span> Statistics Department, University of California at Berkeley.
+</div>
+<div id="ref-deVille2013" class="csl-entry" role="listitem">
+de Ville, Barry. 2013. <span>“Decision Trees.”</span> <em>WIREs Computational Statistics</em> 5 (6): 448–55. <a href="https://doi.org/10.1002/wics.1278">https://doi.org/10.1002/wics.1278</a>.
+</div>
 <div id="ref-Dietterich2000" class="csl-entry" role="listitem">
 Dietterich, Thomas G. 2000. <span>“An Experimental Comparison of Three Methods for Constructing Ensembles of Decision Trees: Bagging, Boosting, and Randomization.”</span> <em>Machine Learning</em> 40: 139–57.
 </div>
+<div id="ref-Fawagreh2014" class="csl-entry" role="listitem">
+Fawagreh, K., M. Gaber, and E. Elyan. 2014. <span>“Random Forests: From Early Developments to Recent Advancements.”</span> <em>Systems Science &amp; Control Engineering</em> 2 (9): 602–9.
+</div>
+<div id="ref-Gardner2021" class="csl-entry" role="listitem">
+Gardner, Charles, and Dan Chia-Tien Lo. 2021. <span>“PCA Embedded Random Forest,”</span> 1–6. <a href="https://doi.org/10.1109/SoutheastCon45413.2021.9401949">https://doi.org/10.1109/SoutheastCon45413.2021.9401949</a>.
+</div>
+<div id="ref-Lin2019" class="csl-entry" role="listitem">
+Lin, Shaofu, Wei Ji, and Jiangtao Pei. 2019. <span>“A Method for Selecting Diabetes Features Based on Random Forest.”</span> <em>Journal of Physics: Conference Series</em> 1237 (2). <a href="https://www.proquest.com/docview/2566217454">https://www.proquest.com/docview/2566217454</a>.
+</div>
+<div id="ref-Lin2006" class="csl-entry" role="listitem">
+Lin, Yi, and Yongho Jeon. 2006. <span>“Random Forests and Adaptive Nearest Neighbors.”</span> <em>Journal of the American Statistical Association</em> 101: 578–90. <a href="https://doi.org/10.1198/016214505000001230">https://doi.org/10.1198/016214505000001230</a>.
+</div>
 <div id="ref-Rodriguez2006" class="csl-entry" role="listitem">
 Rodriguez, Juan J., Ludmilla I. Kuncheva, and Carlos J. Alonso. 2006. <span>“Rotation Forest: A New Classifier Ensemble Method.”</span> <em>IEEE Transactions On Pattern Analysis And Machine Intelligence</em> 28 (10): 1619–30.
+</div>
+<div id="ref-Verikas2011" class="csl-entry" role="listitem">
+Verikas, A., A. Gelzinis, and M. Bacauskiene. 2011. <span>“Mining Data with Random Forests: A Survey and Results of New Tests.”</span> <em>Pattern Recognition</em> 44 (2): 330–49. <a href="https://doi.org/10.1016/j.patcog.2010.08.011">https://doi.org/10.1016/j.patcog.2010.08.011</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->
