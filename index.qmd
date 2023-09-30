@@ -77,6 +77,8 @@ Weights are positive numbers and small if $X_i$ is far from $x$.
 
 ### Data and Vizualisation
 
+Data Source: <a href="https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset" target="_blank">Diabetes Health Indicators Dataset (Kaggle)</a>
+
 <!--
 A study was conducted to determine how...
 
