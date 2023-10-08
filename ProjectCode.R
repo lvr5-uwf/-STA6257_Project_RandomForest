@@ -1,7 +1,7 @@
 #this file is for coding and troubleshooting before putting into blocks on the qmd file
 
 library(tidyverse)
-library(dplyr)
+#library(dplyr)
 library(rpart)
 library(rpart.plot)
 
@@ -45,6 +45,7 @@ df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_
 #summary(df)
 
 #https://www.guru99.com/r-decision-trees.html
+
 
 #create this function variable so it is easier to change it as needed
 model_fn <- Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol
