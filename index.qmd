@@ -219,7 +219,7 @@ diabetes). This dataset has a 50-50 binary split, meaning the data is
 evenly split between having diabetes or not.[@DiabetesDataset]
 
 | Data Field           | Description of Data                                                                                               |
-|------------------|------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | HighBP               | Told by a healthcare professional they have high blood pressure.                                                  |
 | HighChol             | Told by a healthcare professional they have high cholesterol.                                                     |
 | CholCheck            | Cholesterol check within past 5 years.                                                                            |
@@ -249,6 +249,8 @@ library(tidyverse)
 library(dplyr)
 library(rpart)
 library(rpart.plot)
+library(caTools)
+library(caret)
 
 randseed <- 123456
 set.seed(randseed)
@@ -282,7 +284,35 @@ coltypes_collapsed <- paste(coltypes, collapse="")
 #read the full dataset into a dataframe - 50/50 split dataset
 df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_types = coltypes_collapsed)
 
+print("Summary of variables in the dataset")
 summary(df)
+
+#Split dataset into training (75%) and testing (25%)
+set.seed(123456)
+sample_split <- sample.split(Y = df$Diabetes_binary, SplitRatio = 0.75)
+train_set <- subset(x = df, sample_split == TRUE)
+test_set <- subset(x = df, sample_split == FALSE)
+
+#Set up the tree with the training data
+tree <- rpart(Diabetes_binary ~ HighBP + HighChol + CholCheck + BMI + Smoker + Stroke + HeartDiseaseorAttack + PhysActivity + Fruits + Veggies + HvyAlcoholConsump + AnyHealthcare + NoDocbcCost + GenHlth + MentHlth + PhysHlth + DiffWalk + Sex + Age + Education + Income, data = train_set, method = "class")
+print("The steps the classifier took to split the data:")
+tree
+
+#Display the decision tree
+rpart.plot(tree, main = "Decision Tree for the Diabetes Dataset")
+
+#Display the importance of each variable
+print("Importance of each predictor variable")
+importances <- varImp(tree)
+importances %>% arrange(desc(Overall))
+
+#Use this information to predict a new model
+preds <- predict(tree, newdata = test_set, type = "class")
+#preds
+
+#Display accuracy data
+#print("Accuracy for predicted model")
+#confusionMatrix(test_set$Diabetes_binary, preds)
 
 #create this function variable so it is easier to change it as needed
 model_fn <- Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol
