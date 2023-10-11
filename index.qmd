@@ -245,12 +245,19 @@ evenly split between having diabetes or not.[@DiabetesDataset]
 : Data Fields and Description
 
 ```{r}
+#| code-summary: "Code: Import Libraries"
+  
 library(tidyverse)
 library(dplyr)
 library(rpart)
 library(rpart.plot)
 library(caTools)
 library(caret)
+library(gtsummary)
+```
+
+```{r}
+#| code-summary: "Code: Load data"
 
 randseed <- 123456
 set.seed(randseed)
@@ -270,7 +277,7 @@ coltypes <- c("f",#Diabetes_012
               "f",#HvyAlcoholConsump
               "f",#AnyHealthcare
               "f",#NoDocbcCost
-              "n",#GenHlth
+              "f",#GenHlth
               "n",#MentHlth
               "n",#PhysHlth
               "f",#DiffWalk
@@ -284,8 +291,28 @@ coltypes_collapsed <- paste(coltypes, collapse="")
 #read the full dataset into a dataframe - 50/50 split dataset
 df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_types = coltypes_collapsed)
 
-print("Summary of variables in the dataset")
-summary(df)
+```
+
+```{r}
+#| code-summary: "Code: Output summary"
+
+#print gtsummary
+smr <-
+  tbl_summary(
+    df,
+    include = c("Diabetes_binary", "HighBP", "HighChol","CholCheck", "BMI", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies","HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "GenHlth", "MentHlth", "PhysHlth", "DiffWalk","Sex", "Age", "Education", "Income"),
+    type = list(BMI ~ "continuous2", MentHlth  ~ "continuous2", PhysHlth  ~ "continuous2"),
+    statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}")
+  ) %>%
+  add_n() %>% # add column with total number of non-missing observations
+  bold_labels()
+smr
+
+```
+
+### Statistical Modeling
+
+```{r}
 
 #Split dataset into training (75%) and testing (25%)
 set.seed(123456)
@@ -324,42 +351,6 @@ rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 
 ```
 
-````{=html}
-<!--
-A study was conducted to determine how...
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-```
-
-```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
-
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
-
-```
--->
-````
-
-### Statistical Modeling
 
 ### Conlusion
 
