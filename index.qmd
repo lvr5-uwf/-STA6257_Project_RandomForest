@@ -177,19 +177,49 @@ HC (healthy controls).
 
 ## Methods
 
-The general methodology of the Random Forest model is to create a number of decision trees that use a random subset of features for the prediction.  For any given row, the data values are run through all of the decision trees that were created.  The value for the class label is predicted based on the prediction by the majority of the trees.  The reason for the randomness of the features is that it allows some decision tree models to be created with weaker predictive features, which increases model variability.  Model variability is a key component for greater predictive accuracy, allowing weaker variables to still have some effect.  The criteria for splitting is generally to minimize Gini Impurity which is a measure of the homogeneity in the nodes.  Low Gini Impurity implies that the items are more homogeneous (of the same class label).  
+The general methodology of the Random Forest model is to create a number
+of decision trees that use a random subset of features for the
+prediction. For any given row, the data values are run through all of
+the decision trees that were created. The value for the class label is
+predicted based on the prediction by the majority of the trees. The
+reason for the randomness of the features is that it allows some
+decision tree models to be created with weaker predictive features,
+which increases model variability. Model variability is a key component
+for greater predictive accuracy, allowing weaker variables to still have
+some effect. The criteria for splitting is generally to minimize Gini
+Impurity which is a measure of the homogeneity in the nodes. Low Gini
+Impurity implies that the items are more homogeneous (of the same class
+label).
 
-Gini Impurity
-$$
+Gini Impurity $$
 Gini(D) = 1 - \sum_{n = 1}^{k} p_i^2
-$$
-where $p_i$ is the probability that a sample belongs to class i, and k is the number of classes.  As the sum of the probability approaches 1, Gini Impurity approaches 0.  Impurity is 0 when all of the items are of the same class.
+$$ where $p_i$ is the probability that a sample belongs to class i, and
+k is the number of classes. As the sum of the probability approaches 1,
+Gini Impurity approaches 0. Impurity is 0 when all of the items are of
+the same class.
 
-The error rate for a random forest model can be calculated using a method called the "out of bag" estimate.  This is calculated by the using prediction error rate for decision tree models in the random forest that do not contain the class label.  Because the error rate can be approximated in this way, the data does not necessarily have to be split into test and train datasets as in other machine learning models.  Regardless of that, splitting into test and train datasets continues to be a best practice, especially if comparing to or using the random forest method with other machine learning methods.
+The error rate for a random forest model can be calculated using a
+method called the "out of bag" estimate. This is calculated by the using
+prediction error rate for decision tree models in the random forest that
+do not contain the class label. Because the error rate can be
+approximated in this way, the data does not necessarily have to be split
+into test and train datasets as in other machine learning models.
+Regardless of that, splitting into test and train datasets continues to
+be a best practice, especially if comparing to or using the random
+forest method with other machine learning methods.
 
-Decision trees provide a fully human-interpretable model.  Every step of the process is laid out in tree format which can clearly show the decision parameters used to group items into classes.  A random forest is just a number of decision trees so the random forest model can also generate a human-interpretable model.  This is an advantage when there is a need to know exactly how the maching learning model arrived at a decision, for example in cases where there are laws around such matters.
+Decision trees provide a fully human-interpretable model. Every step of
+the process is laid out in tree format which can clearly show the
+decision parameters used to group items into classes. A random forest is
+just a number of decision trees so the random forest model can also
+generate a human-interpretable model. This is an advantage when there is
+a need to know exactly how the maching learning model arrived at a
+decision, for example in cases where there are laws around such matters.
 
-Sample code for creating a Random Forest in R: <!--copied background color from rendered page-->
+Sample code for creating a Random Forest in R:
+<!--copied background color from rendered page-->
+
+```{=html}
 <pre style="background-color: rgba(233,236,239,.65);">
   #include randomForest library
   library(randomForest)
@@ -203,12 +233,12 @@ Sample code for creating a Random Forest in R: <!--copied background color from 
   #votes (probability per row) is in the random forest model votes field
   diabetes.forest$votes
 </pre>
-
-| Row   | Yes         | No          |
-|-------|-------------|-------------|
-| 1     | 0.136842105 | 0.863157895 |
-| 25    | 0.595041322 | 0.404958678 |
-| 26    | 0.990654206 | 0.009345794 |
+```
+| Row | Yes         | No          |
+|-----|-------------|-------------|
+| 1   | 0.136842105 | 0.863157895 |
+| 25  | 0.595041322 | 0.404958678 |
+| 26  | 0.990654206 | 0.009345794 |
 
 : Sample Random Forest Probabilities
 
@@ -235,29 +265,29 @@ individual has diabetes (indicated by 0 for no or 1 for pre-diabetes or
 diabetes). This dataset has a 50-50 binary split, meaning the data is
 evenly split between having diabetes or not.[@DiabetesDataset]
 
-| Data Field           | Description of Data                                                                                               |
-|-------------------|-----------------------------------------------------|
-| HighBP               | Told by a healthcare professional they have high blood pressure.                                                  |
-| HighChol             | Told by a healthcare professional they have high cholesterol.                                                     |
-| CholCheck            | Cholesterol check within past 5 years.                                                                            |
-| BMI                  | Body Mass Index                                                                                                   |
-| Smoker               | Smoked at least 100 cigarettes lifetime.                                                                          |
-| Stroke               | Told by a healthcare professional they have had a stroke.                                                         |
-| HeartDiseaseorAttack | Reported having heart disease or heart attack.                                                                    |
-| PhysActivity         | Physical activity/exercise in past 30 days.                                                                       |
-| Fruits               | Consume fruit 1+ times daily.                                                                                     |
-| Veggies              | Consume vegetables 1+ times daily.                                                                                |
-| HvyAlcoholConsump    | Heavy drinkers (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week) |
-| AnyHealthcare        | Reported having any kind of health insurance/healthcare coverage.                                                 |
-| NoDocbcCost          | Reported needing to see a doctor in the past year, but unable because of cost.                                    |
-| GenHlth              | Statement of general health.                                                                                      |
-| MentHlth             | Statement of mental health in past 30 days (not good).                                                            |
-| PhysHlth             | Statement of physical health in past 30 days (not good).                                                          |
-| DiffWalk             | Difficulty walking up or down stairs.                                                                             |
-| Sex                  | Sex/gender                                                                                                        |
-| Age                  | Age group                                                                                                         |
-| Education            | Highest grade completed.                                                                                          |
-| Income               | Annual household income.                                                                                          |
+| Data Field           | Description of Data                                                                                               | Range of Values |
+|----------------|-----------------------------------------|------------------|
+| HighBP               | Told by a healthcare professional they have high blood pressure.                                                  | (0, 1)          |
+| HighChol             | Told by a healthcare professional they have high cholesterol.                                                     | (0, 1)          |
+| CholCheck            | Cholesterol check within past 5 years.                                                                            | (0, 1)          |
+| BMI                  | Body Mass Index                                                                                                   | (12, 98)        |
+| Smoker               | Smoked at least 100 cigarettes lifetime.                                                                          | (0, 1)          |
+| Stroke               | Told by a healthcare professional they have had a stroke.                                                         | (0, 1)          |
+| HeartDiseaseorAttack | Reported having heart disease or heart attack.                                                                    | (0, 1)          |
+| PhysActivity         | Physical activity/exercise in past 30 days.                                                                       | (0, 1)          |
+| Fruits               | Consume fruit 1+ times daily.                                                                                     | (0, 1)          |
+| Veggies              | Consume vegetables 1+ times daily.                                                                                | (0, 1)          |
+| HvyAlcoholConsump    | Heavy drinkers (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week) | (0, 1)          |
+| AnyHealthcare        | Reported having any kind of health insurance/healthcare coverage.                                                 | (0, 1)          |
+| NoDocbcCost          | Reported needing to see a doctor in the past year, but unable because of cost.                                    | (0, 1)          |
+| GenHlth              | Statement of general health.                                                                                      | (1, 5)          |
+| MentHlth             | Statement of mental health in past 30 days (not good).                                                            | (0, 30)         |
+| PhysHlth             | Statement of physical health in past 30 days (not good).                                                          | (0, 30)         |
+| DiffWalk             | Difficulty walking up or down stairs.                                                                             | (0, 1)          |
+| Sex                  | Sex/gender                                                                                                        | (0, 1)          |
+| Age                  | Age group                                                                                                         | (7, 13)         |
+| Education            | Highest grade completed.                                                                                          | (1, 6)          |
+| Income               | Annual household income.                                                                                          | (1, 8)          |
 
 : Data Fields and Description
 
@@ -271,6 +301,9 @@ library(rpart.plot)
 library(caTools)
 library(caret)
 library(gtsummary)
+library(ggplot2)
+library(ggcorrplot)
+library(visreg)
 ```
 
 ```{r}
@@ -367,7 +400,6 @@ dt_model <- rpart(model_fn, data = df, method="class",
 rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 
 ```
-
 
 ### Conlusion
 
