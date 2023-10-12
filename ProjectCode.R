@@ -7,6 +7,7 @@ library(rpart.plot)
 library(gtsummary)
 library(Hmisc)
 library(corrplot)
+library(randomForest)
 
 randseed <- 123456
 set.seed(randseed)
@@ -78,5 +79,10 @@ rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 #older plot 
 prp(dt_model, faclen=0, cex=0.8, type=0, extra=106, main="Decision Tree")
 
+#create random forest using model, data frame df, and number of trees ntree
+diabetes.forest <- randomForest(Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol, data=df, ntree=300)
+
+#votes (probability per row) is in the random forest model votes field
+diabetes.forest$votes
 
 
