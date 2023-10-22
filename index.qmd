@@ -4,6 +4,7 @@ title: "Random Forest (Decision Trees)"
 author: 
 - name: "Danielle Novinski"
 - name: "Victor Richerson"
+- name: "Dinh Do"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -181,40 +182,67 @@ The general methodology of the Random Forest model is to create a number
 of decision trees that use a random subset of features for the
 prediction. For any given row, the data values are run through all of
 the decision trees that were created. The value for the class label is
-predicted based on the prediction by the majority of the trees. The
+predicted based on the prediction by the majority of the trees [@Breiman2001]. The
 reason for the randomness of the features is that it allows some
 decision tree models to be created with weaker predictive features,
 which increases model variability. Model variability is a key component
 for greater predictive accuracy, allowing weaker variables to still have
-some effect. The criteria for splitting is generally to minimize Gini
+some effect [@Dietterich2000]. The criteria for splitting is generally to minimize Gini
 Impurity which is a measure of the homogeneity in the nodes. Low Gini
 Impurity implies that the items are more homogeneous (of the same class
 label).
 
-Gini Impurity $$
-Gini(D) = 1 - \sum_{n = 1}^{k} p_i^2
-$$ where $p_i$ is the probability that a sample belongs to class i, and
-k is the number of classes. As the sum of the probability approaches 1,
+Gini Impurity of a single node $$
+Gini(D) = 1 - \sum_{i = 1}^{c} p(y_i)^2
+$$ where $p(y_i)$ is the probability that a sample belongs to class i, and
+c is the number of classes. As the sum of the probability squared approaches 1,
 Gini Impurity approaches 0. Impurity is 0 when all of the items are of
 the same class.
+
+Gini Impurity of a node with child nodes [@Robnik2004] 
+$$
+Gini(A_i) = -\sum_{i = 1}^{c} p(y_i)^2 + \sum_{j = 1}^{m_i}p(v_{i,j})\sum_{i = 1}^{c}p(y_i|v_{i,j})^2
+$$ 
+
+The algorithm for random Random Forest is as follows [@Dimitriadis2018]: 
+```{=html}
+<ol>
+<li>
+At the current node, randomly select p features from available features D. 
+The number of features p is usually much smaller than the total number of features D. 
+</li>
+<li>
+Compute the best split point for tree k using the specified splitting metric (Gini Impurity, 
+Information Gain, etc.) and split the current node into daughter nodes and 
+reduce the number of features D from this node on. 
+</li>
+<li>
+Repeat steps 1 to 2 until either a maximum tree depth l has been reached or 
+the splitting metric reaches some extrema. 
+</li>
+<li>
+Repeat steps 1 to 3 for each tree k in the forest. 
+</li>
+<li>
+Vote or aggregate on the output of each tree in the forest.
+</li>
+</ol>
+```
+(quoted directly from source)
 
 The error rate for a random forest model can be calculated using a
 method called the "out of bag" estimate. This is calculated by the using
 prediction error rate for decision tree models in the random forest that
-do not contain the class label. Because the error rate can be
+do not contain the class label [@Breiman2001]. Because the error rate can be
 approximated in this way, the data does not necessarily have to be split
-into test and train datasets as in other machine learning models.
+into test and train datasets as in other machine learning models [@Breiman2001].
 Regardless of that, splitting into test and train datasets continues to
 be a best practice, especially if comparing to or using the random
 forest method with other machine learning methods.
 
-Decision trees provide a fully human-interpretable model. Every step of
+<!--Decision trees provide a fully human-interpretable model. Every step of
 the process is laid out in tree format which can clearly show the
-decision parameters used to group items into classes. A random forest is
-just a number of decision trees so the random forest model can also
-generate a human-interpretable model. This is an advantage when there is
-a need to know exactly how the maching learning model arrived at a
-decision, for example in cases where there are laws around such matters.
+decision parameters used to group items into classes. -->
 
 Sample code for creating a Random Forest in R:
 <!--copied background color from rendered page-->
@@ -237,8 +265,8 @@ Sample code for creating a Random Forest in R:
 | Row | Yes         | No          |
 |-----|-------------|-------------|
 | 1   | 0.136842105 | 0.863157895 |
-| 25  | 0.595041322 | 0.404958678 |
-| 26  | 0.990654206 | 0.009345794 |
+| 2   | 0.595041322 | 0.404958678 |
+| 3   | 0.990654206 | 0.009345794 |
 
 : Sample Random Forest Probabilities
 
