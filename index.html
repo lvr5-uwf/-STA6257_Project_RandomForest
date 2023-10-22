@@ -8,7 +8,8 @@
 
 <meta name="author" content="Danielle Novinski">
 <meta name="author" content="Victor Richerson">
-<meta name="dcterms.date" content="2023-10-12">
+<meta name="author" content="Dinh Do">
+<meta name="dcterms.date" content="2023-10-22">
 
 <title>Random Forest (Decision Trees)</title>
 <style>
@@ -3167,13 +3168,14 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
     <div class="quarto-title-meta-contents">
              <p>Danielle Novinski </p>
              <p>Victor Richerson </p>
+             <p>Dinh Do </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 12, 2023</p>
+      <p class="date">October 22, 2023</p>
     </div>
   </div>
   
@@ -3211,12 +3213,41 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>The general methodology of the Random Forest model is to create a number of decision trees that use a random subset of features for the prediction. For any given row, the data values are run through all of the decision trees that were created. The value for the class label is predicted based on the prediction by the majority of the trees. The reason for the randomness of the features is that it allows some decision tree models to be created with weaker predictive features, which increases model variability. Model variability is a key component for greater predictive accuracy, allowing weaker variables to still have some effect. The criteria for splitting is generally to minimize Gini Impurity which is a measure of the homogeneity in the nodes. Low Gini Impurity implies that the items are more homogeneous (of the same class label).</p>
-<p>Gini Impurity <span class="math display">\[
-Gini(D) = 1 - \sum_{n = 1}^{k} p_i^2
-\]</span> where <span class="math inline">\(p_i\)</span> is the probability that a sample belongs to class i, and k is the number of classes. As the sum of the probability approaches 1, Gini Impurity approaches 0. Impurity is 0 when all of the items are of the same class.</p>
-<p>The error rate for a random forest model can be calculated using a method called the “out of bag” estimate. This is calculated by the using prediction error rate for decision tree models in the random forest that do not contain the class label. Because the error rate can be approximated in this way, the data does not necessarily have to be split into test and train datasets as in other machine learning models. Regardless of that, splitting into test and train datasets continues to be a best practice, especially if comparing to or using the random forest method with other machine learning methods.</p>
-<p>Decision trees provide a fully human-interpretable model. Every step of the process is laid out in tree format which can clearly show the decision parameters used to group items into classes. A random forest is just a number of decision trees so the random forest model can also generate a human-interpretable model. This is an advantage when there is a need to know exactly how the maching learning model arrived at a decision, for example in cases where there are laws around such matters.</p>
+<p>The general methodology of the Random Forest model is to create a number of decision trees that use a random subset of features for the prediction. For any given row, the data values are run through all of the decision trees that were created. The value for the class label is predicted based on the prediction by the majority of the trees <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>. The reason for the randomness of the features is that it allows some decision tree models to be created with weaker predictive features, which increases model variability. Model variability is a key component for greater predictive accuracy, allowing weaker variables to still have some effect <span class="citation" data-cites="Dietterich2000">(<a href="#ref-Dietterich2000" role="doc-biblioref">Dietterich 2000</a>)</span>. The criteria for splitting is generally to minimize Gini Impurity which is a measure of the homogeneity in the nodes. Low Gini Impurity implies that the items are more homogeneous (of the same class label).</p>
+<p>Gini Impurity of a single node <span class="math display">\[
+Gini(D) = 1 - \sum_{i = 1}^{c} p(y_i)^2
+\]</span> where <span class="math inline">\(p(y_i)\)</span> is the probability that a sample belongs to class i, and c is the number of classes. As the sum of the probability squared approaches 1, Gini Impurity approaches 0. Impurity is 0 when all of the items are of the same class.</p>
+<p>Gini Impurity of a node with child nodes <span class="citation" data-cites="Robnik2004">(<a href="#ref-Robnik2004" role="doc-biblioref">Robnik-Šikonja 2004</a>)</span> <span class="math display">\[
+Gini(A_i) = -\sum_{i = 1}^{c} p(y_i)^2 + \sum_{j = 1}^{m_i}p(v_{i,j})\sum_{i = 1}^{c}p(y_i|v_{i,j})^2
+\]</span></p>
+<p>The algorithm for random Random Forest is as follows <span class="citation" data-cites="Dimitriadis2018">(<a href="#ref-Dimitriadis2018" role="doc-biblioref">Dimitriadis and Liparas 2018</a>)</span>:</p>
+<ol>
+<li>
+At the current node, randomly select p features from available features D. 
+The number of features p is usually much smaller than the total number of features D. 
+</li>
+<li>
+Compute the best split point for tree k using the specified splitting metric (Gini Impurity, 
+Information Gain, etc.) and split the current node into daughter nodes and 
+reduce the number of features D from this node on. 
+</li>
+<li>
+Repeat steps 1 to 2 until either a maximum tree depth l has been reached or 
+the splitting metric reaches some extrema. 
+</li>
+<li>
+Repeat steps 1 to 3 for each tree k in the forest. 
+</li>
+<li>
+Vote or aggregate on the output of each tree in the forest.
+</li>
+</ol>
+<p>(quoted directly from source)</p>
+<p>The error rate for a random forest model can be calculated using a method called the “out of bag” estimate. This is calculated by the using prediction error rate for decision tree models in the random forest that do not contain the class label <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>. Because the error rate can be approximated in this way, the data does not necessarily have to be split into test and train datasets as in other machine learning models <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman 2001</a>)</span>. Regardless of that, splitting into test and train datasets continues to be a best practice, especially if comparing to or using the random forest method with other machine learning methods.</p>
+
+<!--Decision trees provide a fully human-interpretable model. Every step of
+the process is laid out in tree format which can clearly show the
+decision parameters used to group items into classes. -->
 <p>Sample code for creating a Random Forest in R: <!--copied background color from rendered page--></p>
 <pre style="background-color: rgba(233,236,239,.65);">  #include randomForest library
   library(randomForest)
@@ -3246,12 +3277,12 @@ Gini(D) = 1 - \sum_{n = 1}^{k} p_i^2
 <td>0.863157895</td>
 </tr>
 <tr class="even">
-<td>25</td>
+<td>2</td>
 <td>0.595041322</td>
 <td>0.404958678</td>
 </tr>
 <tr class="odd">
-<td>26</td>
+<td>3</td>
 <td>0.990654206</td>
 <td>0.009345794</td>
 </tr>
@@ -3268,9 +3299,9 @@ Gini(D) = 1 - \sum_{n = 1}^{k} p_i^2
 <table class="table">
 <caption>Data Fields and Description</caption>
 <colgroup>
-<col style="width: 14%">
-<col style="width: 74%">
-<col style="width: 11%">
+<col style="width: 21%">
+<col style="width: 54%">
+<col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3856,273 +3887,273 @@ text-indent: 25px;
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Diabetes_binary</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">35,346 (50%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">35,346 (50%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HighBP</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">39,832 (56%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">30,860 (44%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HighChol</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">33,529 (47%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">37,163 (53%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">CholCheck</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">68,943 (98%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">1,749 (2.5%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">BMI</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Median (IQR)</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">29 (25, 33)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Range</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">12, 98</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoker</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">37,094 (52%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">33,598 (48%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Stroke</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">66,297 (94%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">4,395 (6.2%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HeartDiseaseorAttack</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">60,243 (85%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">10,449 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PhysActivity</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">49,699 (70%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">20,993 (30%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Fruits</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">27,443 (39%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">43,249 (61%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Veggies</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">55,760 (79%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">14,932 (21%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HvyAlcoholConsump</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">67,672 (96%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">3,020 (4.3%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">AnyHealthcare</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">67,508 (95%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">3,184 (4.5%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">NoDocbcCost</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">64,053 (91%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">6,639 (9.4%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">GenHlth</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">23,427 (33%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">8,282 (12%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">19,872 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">13,303 (19%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">5,808 (8.2%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">MentHlth</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Median (IQR)</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">0 (0, 2)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Range</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">0, 30</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PhysHlth</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Median (IQR)</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">0 (0, 6)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Range</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">0, 30</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">DiffWalk</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">52,826 (75%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">17,866 (25%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Sex</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">32,306 (46%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">38,386 (54%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">2,793 (4.0%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    12.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">5,394 (7.6%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    13.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">5,426 (7.7%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    11.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">8,044 (11%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    8.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">8,603 (12%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">979 (1.4%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">4,648 (6.6%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">2,049 (2.9%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    7.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">6,872 (9.7%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    10.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">10,856 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    9.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">10,112 (14%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">3,520 (5.0%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">1,396 (2.0%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">26,020 (37%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">20,030 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">19,473 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">3,447 (4.9%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">1,647 (2.3%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">75 (0.1%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Income</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
+<td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    8.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">20,646 (29%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    7.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">11,425 (16%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">10,287 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">5,557 (7.9%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">6,658 (9.4%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">3,611 (5.1%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">8,010 (11%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"><br></td>
+<td headers="n" class="gt_row gt_center"></td>
 <td headers="stat_0" class="gt_row gt_center">4,498 (6.4%)</td></tr>
   </tbody>
   
@@ -4278,6 +4309,9 @@ de Ville, Barry. 2013. <span>“Decision Trees.”</span> <em>WIREs Computationa
 <div id="ref-Dietterich2000" class="csl-entry" role="listitem">
 Dietterich, Thomas G. 2000. <span>“An Experimental Comparison of Three Methods for Constructing Ensembles of Decision Trees: Bagging, Boosting, and Randomization.”</span> <em>Machine Learning</em> 40: 139–57.
 </div>
+<div id="ref-Dimitriadis2018" class="csl-entry" role="listitem">
+Dimitriadis, S. I., and D. Liparas. 2018. <span>“Alzheimer’s Disease Neuroimaging Initiative. How Random Is the Random Forest? Random Forest Algorithm on the Service of Structural Imaging Biomarkers for Alzheimer’s Disease: From Alzheimer’s Disease Neuroimaging Initiative (ADNI) Database.”</span> <em>Neural Regeneration Research</em> 13 (6): 962–70. <a href="https://doi.org/10.4103/1673-5374.233433">https://doi.org/10.4103/1673-5374.233433</a>.
+</div>
 <div id="ref-Fawagreh2014" class="csl-entry" role="listitem">
 Fawagreh, K., M. Gaber, and E. Elyan. 2014. <span>“Random Forests: From Early Developments to Recent Advancements.”</span> <em>Systems Science &amp; Control Engineering</em> 2 (9): 602–9.
 </div>
@@ -4292,6 +4326,9 @@ Lin, Yi, and Yongho Jeon. 2006. <span>“Random Forests and Adaptive Nearest Nei
 </div>
 <div id="ref-Moore2019" class="csl-entry" role="listitem">
 Moore, P. J., T. J. Lyons, and J. Gallacher. 2019. <span>“Random Forest Prediction of Alzheimer’s Disease Using Pairwise Selection from Time Series Data.”</span> <em>PLoS ONE</em> 14 (2). <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211558">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0211558</a>.
+</div>
+<div id="ref-Robnik2004" class="csl-entry" role="listitem">
+Robnik-Šikonja, Marko. 2004. <span>“Improving Random Forests.”</span> In <em>Machine Learning: ECML 2004</em>, 359–70. Springer Berlin Heidelberg. <a href="https://doi.org/10.1007/978-3-540-30115-8_34">https://doi.org/10.1007/978-3-540-30115-8_34</a>.
 </div>
 <div id="ref-Rodriguez2006" class="csl-entry" role="listitem">
 Rodriguez, Juan J., Ludmilla I. Kuncheva, and Carlos J. Alonso. 2006. <span>“Rotation Forest: A New Classifier Ensemble Method.”</span> <em>IEEE Transactions On Pattern Analysis And Machine Intelligence</em> 28 (10): 1619–30.
