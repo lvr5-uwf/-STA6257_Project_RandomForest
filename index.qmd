@@ -1,5 +1,5 @@
 ---
-title: "Random Forest (Decision Trees)"
+title: "Applying Random Forest Methods on Predictors for Diabetes"
 #author ref https://quarto.org/docs/journals/authors.html
 author: 
 - name: "Danielle Novinski"
@@ -182,29 +182,29 @@ The general methodology of the Random Forest model is to create a number
 of decision trees that use a random subset of features for the
 prediction. For any given row, the data values are run through all of
 the decision trees that were created. The value for the class label is
-predicted based on the prediction by the majority of the trees [@Breiman2001]. The
-reason for the randomness of the features is that it allows some
-decision tree models to be created with weaker predictive features,
-which increases model variability. Model variability is a key component
-for greater predictive accuracy, allowing weaker variables to still have
-some effect [@Dietterich2000]. The criteria for splitting is generally to minimize Gini
-Impurity which is a measure of the homogeneity in the nodes. Low Gini
-Impurity implies that the items are more homogeneous (of the same class
-label).
+predicted based on the prediction by the majority of the trees
+[@Breiman2001]. The reason for the randomness of the features is that it
+allows some decision tree models to be created with weaker predictive
+features, which increases model variability. Model variability is a key
+component for greater predictive accuracy, allowing weaker variables to
+still have some effect [@Dietterich2000]. The criteria for splitting is
+generally to minimize Gini Impurity which is a measure of the
+homogeneity in the nodes. Low Gini Impurity implies that the items are
+more homogeneous (of the same class label).
 
 Gini Impurity of a single node $$
 Gini(D) = 1 - \sum_{i = 1}^{c} p(y_i)^2
-$$ where $p(y_i)$ is the probability that a sample belongs to class i, and
-c is the number of classes. As the sum of the probability squared approaches 1,
-Gini Impurity approaches 0. Impurity is 0 when all of the items are of
-the same class.
+$$ where $p(y_i)$ is the probability that a sample belongs to class i,
+and c is the number of classes. As the sum of the probability squared
+approaches 1, Gini Impurity approaches 0. Impurity is 0 when all of the
+items are of the same class.
 
-Gini Impurity of a node with child nodes [@Robnik2004] 
-$$
+Gini Impurity of a node with child nodes [@Robnik2004] $$
 Gini(A_i) = -\sum_{i = 1}^{c} p(y_i)^2 + \sum_{j = 1}^{m_i}p(v_{i,j})\sum_{i = 1}^{c}p(y_i|v_{i,j})^2
-$$ 
+$$
 
-The algorithm for random Random Forest is as follows [@Dimitriadis2018]: 
+The algorithm for random Random Forest is as follows [@Dimitriadis2018]:
+
 ```{=html}
 <ol>
 <li>
@@ -233,17 +233,18 @@ Vote or aggregate on the output of each tree in the forest.
 The error rate for a random forest model can be calculated using a
 method called the "out of bag" estimate. This is calculated by the using
 prediction error rate for decision tree models in the random forest that
-do not contain the class label [@Breiman2001]. Because the error rate can be
-approximated in this way, the data does not necessarily have to be split
-into test and train datasets as in other machine learning models [@Breiman2001].
-Regardless of that, splitting into test and train datasets continues to
-be a best practice, especially if comparing to or using the random
-forest method with other machine learning methods.
+do not contain the class label [@Breiman2001]. Because the error rate
+can be approximated in this way, the data does not necessarily have to
+be split into test and train datasets as in other machine learning
+models [@Breiman2001]. Regardless of that, splitting into test and train
+datasets continues to be a best practice, especially if comparing to or
+using the random forest method with other machine learning methods.
 
+```{=html}
 <!--Decision trees provide a fully human-interpretable model. Every step of
 the process is laid out in tree format which can clearly show the
 decision parameters used to group items into classes. -->
-
+```
 Sample code for creating a Random Forest in R:
 <!--copied background color from rendered page-->
 
@@ -294,7 +295,7 @@ diabetes). This dataset has a 50-50 binary split, meaning the data is
 evenly split between having diabetes or not.[@DiabetesDataset]
 
 | Data Field           | Description of Data                                                                                               | Range of Values |
-|----------------|-----------------------------------------|------------------|
+|-----------------|--------------------------------------|-----------------|
 | HighBP               | Told by a healthcare professional they have high blood pressure.                                                  | (0, 1)          |
 | HighChol             | Told by a healthcare professional they have high cholesterol.                                                     | (0, 1)          |
 | CholCheck            | Cholesterol check within past 5 years.                                                                            | (0, 1)          |
@@ -429,7 +430,7 @@ rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 
 ```
 
-### Conlusion
+### Conclusion
 
 ## References
 
