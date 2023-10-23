@@ -9,9 +9,9 @@
 <meta name="author" content="Danielle Novinski">
 <meta name="author" content="Victor Richerson">
 <meta name="author" content="Dinh Do">
-<meta name="dcterms.date" content="2023-10-22">
+<meta name="dcterms.date" content="2023-10-23">
 
-<title>Random Forest (Decision Trees)</title>
+<title>Applying Random Forest Methods on Predictors for Diabetes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3156,7 +3156,7 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Random Forest (Decision Trees)</h1>
+<h1 class="title">Applying Random Forest Methods on Predictors for Diabetes</h1>
 </div>
 
 
@@ -3175,7 +3175,7 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 22, 2023</p>
+      <p class="date">October 23, 2023</p>
     </div>
   </div>
   
@@ -3299,9 +3299,9 @@ decision parameters used to group items into classes. -->
 <table class="table">
 <caption>Data Fields and Description</caption>
 <colgroup>
-<col style="width: 21%">
-<col style="width: 54%">
-<col style="width: 24%">
+<col style="width: 23%">
+<col style="width: 52%">
+<col style="width: 23%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3887,273 +3887,273 @@ text-indent: 25px;
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Diabetes_binary</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">35,346 (50%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">35,346 (50%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HighBP</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">39,832 (56%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">30,860 (44%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HighChol</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">33,529 (47%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">37,163 (53%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">CholCheck</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">68,943 (98%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">1,749 (2.5%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">BMI</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Median (IQR)</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">29 (25, 33)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Range</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">12, 98</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoker</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">37,094 (52%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">33,598 (48%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Stroke</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">66,297 (94%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">4,395 (6.2%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HeartDiseaseorAttack</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">60,243 (85%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">10,449 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PhysActivity</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">49,699 (70%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">20,993 (30%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Fruits</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">27,443 (39%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">43,249 (61%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Veggies</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">55,760 (79%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">14,932 (21%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HvyAlcoholConsump</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">67,672 (96%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">3,020 (4.3%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">AnyHealthcare</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">67,508 (95%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">3,184 (4.5%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">NoDocbcCost</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">64,053 (91%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">6,639 (9.4%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">GenHlth</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">23,427 (33%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">8,282 (12%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">19,872 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">13,303 (19%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">5,808 (8.2%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">MentHlth</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Median (IQR)</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">0 (0, 2)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Range</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">0, 30</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PhysHlth</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Median (IQR)</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">0 (0, 6)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Range</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">0, 30</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">DiffWalk</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">52,826 (75%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">17,866 (25%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Sex</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">32,306 (46%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">38,386 (54%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">2,793 (4.0%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    12.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">5,394 (7.6%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    13.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">5,426 (7.7%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    11.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">8,044 (11%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    8.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">8,603 (12%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">979 (1.4%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">4,648 (6.6%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">2,049 (2.9%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    7.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">6,872 (9.7%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    10.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">10,856 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    9.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">10,112 (14%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">3,520 (5.0%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">1,396 (2.0%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">26,020 (37%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">20,030 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">19,473 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">3,447 (4.9%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">1,647 (2.3%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">75 (0.1%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Income</td>
 <td headers="n" class="gt_row gt_center">70,692</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    8.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">20,646 (29%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    7.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">11,425 (16%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">10,287 (15%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    3.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">5,557 (7.9%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">6,658 (9.4%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    1.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">3,611 (5.1%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    5.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">8,010 (11%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2.0</td>
-<td headers="n" class="gt_row gt_center"></td>
+<td headers="n" class="gt_row gt_center"><br></td>
 <td headers="stat_0" class="gt_row gt_center">4,498 (6.4%)</td></tr>
   </tbody>
   
@@ -4277,8 +4277,8 @@ Income                  0.0000</code></pre>
 </div>
 </div>
 </section>
-<section id="conlusion" class="level3">
-<h3 class="anchored" data-anchor-id="conlusion">Conlusion</h3>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
 </section>
 </section>
 <section id="references" class="level2">
