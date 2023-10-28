@@ -3299,9 +3299,9 @@ decision parameters used to group items into classes. -->
 <table class="table">
 <caption>Data Fields and Description</caption>
 <colgroup>
-<col style="width: 23%">
-<col style="width: 52%">
-<col style="width: 23%">
+<col style="width: 25%">
+<col style="width: 50%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3431,7 +3431,8 @@ decision parameters used to group items into classes. -->
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visreg)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ranger)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
@@ -3470,6 +3471,7 @@ decision parameters used to group items into classes. -->
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;diabetes_binary_5050split_health_indicators_BRFSS2015.zip&quot;</span>, <span class="at">col_types =</span> coltypes_collapsed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Summary of the variables in the data set and number of occurrences.</p>
 <div class="cell">
 <details>
 <summary>Code: Output summary</summary>
@@ -4279,6 +4281,12 @@ OOB prediction error:             25.59 % </code></pre>
 </div>
 <!--
 
+The data set is split into training (75%) and testing (25%).
+
+The classifier performed the following steps to split the data.
+
+
+
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -4301,15 +4309,52 @@ OOB prediction error:             25.59 % </code></pre>
 # importances <- varImp(tree)
 # importances %>% arrange(desc(Overall))
 # 
-# #Use this information to predict a new model
-# preds <- predict(tree, newdata = test_set, type = "class")
-# #preds
-# 
-# #Display accuracy data
-# #print("Accuracy for predicted model")
-# #confusionMatrix(test_set$Diabetes_binary, preds)
 ```
 :::
+
+
+Feature Selection
+
+The classifier determined the most important variables, shown below.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+#Display the importance of each variable - updated this to display as a bar graph
+#print("Importance of each predictor variable")
+#importances <- varImp(tree)
+#importances %>% arrange(desc(Overall))
+# var_importance <- vip::vip(tree, num_features = 22)
+# print(var_importance)
+```
+:::
+
+
+A prediction model is created with the test data set.
+
+
+::: {.cell}
+
+```{.r .cell-code}
+#Use this information to predict a new model
+#preds <- predict(tree, newdata = test_set, type = "class")
+#preds
+```
+:::
+
+
+Accuracy results for the prediction model are as follows:
+
+
+::: {.cell}
+
+```{.r .cell-code}
+#Display accuracy data
+#confusionMatrix(test_set$Diabetes_binary, preds)
+```
+:::
+
 
 -->
 </section>

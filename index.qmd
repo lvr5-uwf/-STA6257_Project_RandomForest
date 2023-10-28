@@ -295,7 +295,7 @@ diabetes). This dataset has a 50-50 binary split, meaning the data is
 evenly split between having diabetes or not.[@DiabetesDataset]
 
 | Data Field           | Description of Data                                                                                               | Range of Values |
-|-----------------|--------------------------------------|-----------------|
+|------------------|------------------------------------|------------------|
 | HighBP               | Told by a healthcare professional they have high blood pressure.                                                  | (0, 1)          |
 | HighChol             | Told by a healthcare professional they have high cholesterol.                                                     | (0, 1)          |
 | CholCheck            | Cholesterol check within past 5 years.                                                                            | (0, 1)          |
@@ -334,6 +334,8 @@ library(ggplot2)
 library(ggcorrplot)
 library(visreg)
 library(ranger)
+library(vip)
+
 ```
 
 ```{r}
@@ -372,6 +374,8 @@ coltypes_collapsed <- paste(coltypes, collapse="")
 df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_types = coltypes_collapsed)
 
 ```
+
+Summary of the variables in the data set and number of occurrences.
 
 ```{r}
 #| code-summary: "Code: Output summary"
@@ -470,6 +474,12 @@ rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 ```
 
 <!--
+
+The data set is split into training (75%) and testing (25%).
+
+The classifier performed the following steps to split the data.
+
+
 ```{r}
 
 # #Split dataset into training (75%) and testing (25%)
@@ -491,15 +501,40 @@ rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 # importances <- varImp(tree)
 # importances %>% arrange(desc(Overall))
 # 
-# #Use this information to predict a new model
-# preds <- predict(tree, newdata = test_set, type = "class")
-# #preds
-# 
-# #Display accuracy data
-# #print("Accuracy for predicted model")
-# #confusionMatrix(test_set$Diabetes_binary, preds)
 
 ```
+
+Feature Selection
+
+The classifier determined the most important variables, shown below.
+
+```{r}
+#Display the importance of each variable - updated this to display as a bar graph
+#print("Importance of each predictor variable")
+#importances <- varImp(tree)
+#importances %>% arrange(desc(Overall))
+# var_importance <- vip::vip(tree, num_features = 22)
+# print(var_importance)
+
+```
+
+A prediction model is created with the test data set.
+
+```{r}
+#Use this information to predict a new model
+#preds <- predict(tree, newdata = test_set, type = "class")
+#preds
+
+```
+
+Accuracy results for the prediction model are as follows:
+
+```{r}
+#Display accuracy data
+#confusionMatrix(test_set$Diabetes_binary, preds)
+
+```
+
 -->
 
 ### Conclusion
