@@ -333,6 +333,7 @@ library(gtsummary)
 library(ggplot2)
 library(ggcorrplot)
 library(visreg)
+library(ranger)
 ```
 
 ```{r}
@@ -391,34 +392,72 @@ smr
 
 ### Statistical Modeling
 
+Our intial analysis will use the default parameters.  The ranger package in R implements a fast version of random forest.  We are classifying the Diabetes Binary field using all of the remaining fields in the dataframe.  We are also outputting the variable importance using gini impurity as the importance measure.
+
+```{r, cache=TRUE}
+#| code-summary: "Code: Random Forest Defaults"
+
+#create actual random forest with full list of variables for analysis
+diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, importance = 'impurity')
+print(diabetes.forest)
+
+```
+
+This shows that our estimated error rate is around 25.6%, for an accuracy rate of around 74.4%.
+
 ```{r}
+#| code-summary: "Code: Importance Measures"
 
-#Split dataset into training (75%) and testing (25%)
-set.seed(123456)
-sample_split <- sample.split(Y = df$Diabetes_binary, SplitRatio = 0.75)
-train_set <- subset(x = df, sample_split == TRUE)
-test_set <- subset(x = df, sample_split == FALSE)
+#show importance measures
+sort(round(diabetes.forest$variable.importance, 2), decreasing = T)
+```
 
-#Set up the tree with the training data
-tree <- rpart(Diabetes_binary ~ HighBP + HighChol + CholCheck + BMI + Smoker + Stroke + HeartDiseaseorAttack + PhysActivity + Fruits + Veggies + HvyAlcoholConsump + AnyHealthcare + NoDocbcCost + GenHlth + MentHlth + PhysHlth + DiffWalk + Sex + Age + Education + Income, data = train_set, method = "class")
-print("The steps the classifier took to split the data:")
-tree
+The most important variables impacting Diabetes were found to be BMI, High Blood Pressure, General Health, Age, Income, Physical and Mental Health.
 
-#Display the decision tree
-rpart.plot(tree, main = "Decision Tree for the Diabetes Dataset")
+Random Forest and other machine learning methods require hyperparameter tuning to obtain optimal settings for variables.  In this example a grid search is used to find the optimal number of variables to use for the split, which uses the "mtry" parameter.  For speed and efficiency, a stratified sample of 10% of the dataset was used for this algorithm. 
 
-#Display the importance of each variable
-print("Importance of each predictor variable")
-importances <- varImp(tree)
-importances %>% arrange(desc(Overall))
+```{r, cache=TRUE}
+#| code-summary: "Code: Tune Random Forest"
 
-#Use this information to predict a new model
-preds <- predict(tree, newdata = test_set, type = "class")
-#preds
+#split data and stratify on class label
+parts <- splitTools::partition(df$Diabetes_binary, p=c(sample = 0.1, remainder = 0.9))
+df.sample <- df[parts$sample,]
 
-#Display accuracy data
-#print("Accuracy for predicted model")
-#confusionMatrix(test_set$Diabetes_binary, preds)
+#set the metric to be used for tuning
+metric <- "Accuracy"
+
+#setup control settings for caret train(tune) call
+control <- trainControl(method="repeatedcv", number=5, repeats=3, search="grid")
+#set up train (tune) parameters
+tunegrid <- expand.grid(.mtry=c(1:10), .splitrule='gini', .min.node.size=1)
+#call to caret train(tune) using sample of data
+rf_gridsearch <- train(Diabetes_binary~., data=df.sample, method="ranger", metric=metric, tuneGrid=tunegrid, trControl=control)
+
+#print results of parameter tuning
+#print(rf_gridsearch)
+
+#plot results for parameter tuning
+plot(rf_gridsearch)
+
+```
+
+This plot shows that the optimal value for number of variables to split at each node peaks at 4 and declines from there.  Using this value should yield the optimal accuracy rate.  The number of trees was tuned manually and it was found that about 2000 trees is optimal.
+
+<!--
+```{r, cache=TRUE}
+#| code-summary: "Code: Random Forest Tuned"
+
+# #now try with specific parameters found by tuning
+# diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=4, num.trees=2000)
+# print(diabetes.forest)
+
+```
+-->
+
+Below is a sample of a single decision tree.
+
+```{r}
+#| code-summary: "Code: Single Decision Tree Example"
 
 #create this function variable so it is easier to change it as needed
 model_fn <- Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol
@@ -429,6 +468,39 @@ dt_model <- rpart(model_fn, data = df, method="class",
 rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
 
 ```
+
+<!--
+```{r}
+
+# #Split dataset into training (75%) and testing (25%)
+# set.seed(123456)
+# sample_split <- sample.split(Y = df$Diabetes_binary, SplitRatio = 0.75)
+# train_set <- subset(x = df, sample_split == TRUE)
+# test_set <- subset(x = df, sample_split == FALSE)
+# 
+# #Set up the tree with the training data
+# tree <- rpart(Diabetes_binary ~ HighBP + HighChol + CholCheck + BMI + Smoker + Stroke + HeartDiseaseorAttack + PhysActivity + Fruits + Veggies + HvyAlcoholConsump + AnyHealthcare + NoDocbcCost + GenHlth + MentHlth + PhysHlth + DiffWalk + Sex + Age + Education + Income, data = train_set, method = "class")
+# print("The steps the classifier took to split the data:")
+# tree
+# 
+# #Display the decision tree
+# rpart.plot(tree, main = "Decision Tree for the Diabetes Dataset")
+# 
+# #Display the importance of each variable
+# print("Importance of each predictor variable")
+# importances <- varImp(tree)
+# importances %>% arrange(desc(Overall))
+# 
+# #Use this information to predict a new model
+# preds <- predict(tree, newdata = test_set, type = "class")
+# #preds
+# 
+# #Display accuracy data
+# #print("Accuracy for predicted model")
+# #confusionMatrix(test_set$Diabetes_binary, preds)
+
+```
+-->
 
 ### Conclusion
 
