@@ -335,7 +335,8 @@ library(caTools)
 library(caret)
 library(gtsummary)
 library(ggplot2)
-library(ggcorrplot)
+#library(ggcorrplot)
+library(gridExtra)
 #library(visreg)
 library(splitTools)
 library(ranger)
@@ -384,7 +385,7 @@ df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_
 Summary of the variables in the data set and number of occurrences.
 
 ```{r}
-#| code-summary: "Code: Output summary"
+#| code-summary: "Code: Create summary"
 
 #print gtsummary
 smr <-
@@ -396,7 +397,47 @@ smr <-
   ) %>%
   add_n() %>% # add column with total number of non-missing observations
   bold_labels()
-smr
+#smr
+
+#use the summary table data to output bar charts
+#create lists for charts
+binary_chart_list <- list()
+multiple_chart_list <- list()
+
+#loop field stats from internals of summary data
+for (field in smr$meta_data$df_stats) {
+  #print(field)
+  #if this is a field with a probability field
+  if ("p" %in% names(field)) {
+    #create ggplot
+    field_chart <- ggplot(field, aes(x = label, y = p, fill = label)) +
+      geom_col() +
+      xlab(field$variable[1]) + ylab("Percent") +
+      theme(legend.position = "none")
+    
+    #add chart to correct list
+    if (nrow(field) == 2) {
+      binary_chart_list[[field$variable[1]]] <- field_chart
+    } else {
+      multiple_chart_list[[field$variable[1]]] <- field_chart
+    }
+  }
+}
+
+```
+
+```{r}
+#| code-summary: "Code: Output summary"
+
+#print charts in grid
+grid.arrange(grobs=binary_chart_list, ncol=4)
+
+```
+
+```{r}
+#| code-summary: "Code: Output summary"
+
+grid.arrange(grobs=multiple_chart_list, ncol=2)
 
 ```
 

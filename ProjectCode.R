@@ -16,6 +16,7 @@ library(caret)
 library(vip)
 library(ranger)
 library(lessR)
+library(gridExtra)
 
 randseed <- 123456
 set.seed(randseed)
@@ -57,16 +58,54 @@ df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_
 #summary(df)
 
 #print gt summary
-# smr <-
-#   tbl_summary(
-#     df,
-#     include = c("Diabetes_binary", "HighBP", "HighChol","CholCheck", "BMI", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies","HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "GenHlth", "MentHlth", "PhysHlth", "DiffWalk","Sex", "Age", "Education", "Income"),
-#     type = list(BMI ~ "continuous2", MentHlth  ~ "continuous2", PhysHlth  ~ "continuous2"),
-#     statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}")
-#   ) %>%
-#   add_n() %>% # add column with total number of non-missing observations
-#   bold_labels()
-# smr
+smr <-
+  tbl_summary(
+    df,
+    include = c("Diabetes_binary", "HighBP", "HighChol","CholCheck", "BMI", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies","HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "GenHlth", "MentHlth", "PhysHlth", "DiffWalk","Sex", "Age", "Education", "Income"),
+    type = list(BMI ~ "continuous2", MentHlth  ~ "continuous2", PhysHlth  ~ "continuous2"),
+    statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}")
+  ) %>%
+  add_n() %>% # add column with total number of non-missing observations
+  bold_labels()
+smr
+
+#create lists for charts
+binary_chart_list <- list()
+multiple_chart_list <- list()
+
+#loop field stats from internals of summary data
+for (field in smr$meta_data$df_stats) {
+  #print(field)
+  #if this is a field with a probability field
+  if ("p" %in% names(field)) {
+    #create ggplot
+    field_chart <- ggplot(field, aes(x = label, y = p, fill = label)) +
+      geom_col() +
+      xlab(field$variable[1]) + ylab("Percent") +
+      theme(legend.position = "none")
+    
+    #add chart to correct list
+    if (nrow(field) == 2) {
+      binary_chart_list[[field$variable[1]]] <- field_chart
+    } else {
+      multiple_chart_list[[field$variable[1]]] <- field_chart
+    }
+  }
+}
+
+#print charts in grid
+grid.arrange(grobs=binary_chart_list, ncol=4)
+grid.arrange(grobs=multiple_chart_list, ncol=2)
+
+smr$meta_data$df_stats[[1]]$variable[1]
+
+field_chart <- ggplot(smr$meta_data$df_stats[[1]], aes(x = label, y = p, fill = label)) +
+  geom_col() +
+  geom_text(aes(label = label),position = position_stack(vjust = 0.5), show.legend = F) +
+  xlab(paste(smr$meta_data$df_stats[[1]]$variable[1], "Distribution")) + ylab("Percent") +
+theme(legend.position = "none")
+field_chart
+
 
 #reload data with all columns as numeric (the default)
 # df.2 <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip")
@@ -166,6 +205,33 @@ ConfusionMatrixChart <- function(conf_matrix){
            main = "Confusion Matrix")  
 }
 ConfusionMatrixChart(confusion.test)
+
+
+cf <- data.frame(cfm = confusion.test$table)
+#add percentage field
+cf <- cf %>%  mutate(cfm.Percent = cfm.Freq / sum(cfm.Freq))
+#add labels for TN, FN, TP, FP
+cf <- cf %>%  mutate(cfm.Label = 
+                       case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "TN",
+                                 cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "FN", 
+                                 cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "TP",
+                                 cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "FP"))
+
+#add color field to go with the labels - green is good and red is bad
+cf <- cf %>%  mutate(cfm.Label.Color = 
+                       case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "darkgreen",
+                                 cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "red", 
+                                 cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "darkgreen",
+                                 cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "red"))
+#tried to set it to output in the order I wanted but it seems to have it's own order
+#this did nothing for the sort order of the output chart
+cf <- cf %>% mutate(cfm.Label = factor(cfm.Label, levels = c("TN", "FN", "TP", "FP")))
+
+ggplot(cf, aes(x = cfm.Label, y = cfm.Percent, fill = cfm.Label)) +
+  geom_col() +
+  geom_text(aes(label = cfm.Label),position = position_stack(vjust = 0.5), show.legend = F) +
+  xlab("Confusion Matrix") + ylab("Percent")
+  theme(legend.position = "none") #+ scale_fill_manual(values = cf$cfm.Label.Color)
 
 #pie(x = cf$cfm.Percent, y = cf$cfm.Label)
 
