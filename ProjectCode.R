@@ -15,6 +15,7 @@ library(mlbench)
 library(caret)
 library(vip)
 library(ranger)
+library(lessR)
 
 randseed <- 123456
 set.seed(randseed)
@@ -131,11 +132,42 @@ preds <- predict(diabetes.forest, data = df.test, seed=randseed)
 #create confusion matrix of prediction vs actual on test set
 confusion.test <- confusionMatrix(data=df.test$Diabetes_binary, reference = preds$predictions)
 #show confusion matrix plot, ref: https://www.delftstack.com/howto/r/visualize-confusion-matrix-in-r/
-fourfoldplot(confusion.test$table,color = c("cyan", "pink"),
+fourfoldplot(confusion.test$table,color = c("red", "green"),
              conf.level = 0, margin = 1, main = "Confusion Matrix")
 #show full confusion matrix output with accuracy values etc
 confusion.test
 
+#create function to output a chart from a confusion matrix
+ConfusionMatrixChart <- function(conf_matrix){
+  #create dataframe to use for the chart
+  cf <- data.frame(cfm = conf_matrix$table)
+  #add percentage field
+  cf <- cf %>%  mutate(cfm.Percent = cfm.Freq / sum(cfm.Freq))
+  #add labels for TN, FN, TP, FP
+  cf <- cf %>%  mutate(cfm.Label = 
+                         case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "TN",
+                                   cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "FN", 
+                                   cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "TP",
+                                   cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "FP"))
+  
+  #add color field to go with the labels - green is good and red is bad
+  cf <- cf %>%  mutate(cfm.Label.Color = 
+                         case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "darkgreen",
+                                   cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "red", 
+                                   cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "darkgreen",
+                                   cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "red"))
+  #tried to set it to output in the order I wanted but it seems to have it's own order
+  #this did nothing for the sort order of the output chart
+  #cf <- cf %>% mutate(cfm.Label = factor(cfm.Label, levels = c("TN", "FN", "TP", "FP")))
+  
+  #output the chart
+  PieChart(x = cfm.Label, y = cfm.Percent, hole = 0, values = "%", data = cf, 
+           clockwise = T, quiet = T, fill = cf$cfm.Label.Color,  width = 3,
+           main = "Confusion Matrix")  
+}
+ConfusionMatrixChart(confusion.test)
+
+#pie(x = cf$cfm.Percent, y = cf$cfm.Label)
 
 plot(confusion.test$table)
 
