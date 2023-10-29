@@ -13,6 +13,7 @@ library(randomForest)
 library(splitTools)
 library(mlbench)
 library(caret)
+library(vip)
 library(ranger)
 
 randseed <- 123456
@@ -102,9 +103,47 @@ print(diabetes.forest)
 #show importance measures
 sort(round(diabetes.forest$variable.importance, 2), decreasing = T)
 
+#create vi object for variable importance graph
+vi_values <- vi(diabetes.forest)
+#create variable importance graph
+vip(vi_values, aesthetics = list(fill="blue"))
+
 #now try with specific parameters
 diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=4, num.trees=2000, importance = 'impurity')
 print(diabetes.forest)
+
+#use reduced list of parameters found by assessing variable importance
+reduced_model <- Diabetes_binary ~ BMI + HighBP + GenHlth + Age + Income + PhysHlth
+diabetes.forest.reduced <- ranger(reduced_model)
+print(diabetes.forest.reduced)
+
+#split data and stratify on class label
+parts <- splitTools::partition(df$Diabetes_binary, p=c(train = 0.7, test = 0.3))
+df.train <- df[parts$train,]
+df.test <- df[parts$test,]
+
+#train rf with train set
+diabetes.forest <- ranger(Diabetes_binary ~ ., data=df.train)
+
+#predict using test set
+preds <- predict(diabetes.forest, data = df.test, seed=randseed)
+
+#create confusion matrix of prediction vs actual on test set
+confusion.test <- confusionMatrix(data=df.test$Diabetes_binary, reference = preds$predictions)
+#show confusion matrix plot, ref: https://www.delftstack.com/howto/r/visualize-confusion-matrix-in-r/
+fourfoldplot(confusion.test$table,color = c("cyan", "pink"),
+             conf.level = 0, margin = 1, main = "Confusion Matrix")
+#show full confusion matrix output with accuracy values etc
+confusion.test
+
+
+plot(confusion.test$table)
+
+control <- trainControl(method="repeatedcv", number=5, repeats=3, search="grid")
+tunegrid <- expand.grid(.mtry=c(1:6), .splitrule='gini', .min.node.size=1)
+rf_gridsearch <- train(reduced_model, data=df.sample, method="ranger", metric=metric, tuneGrid=tunegrid, trControl=control)
+print(rf_gridsearch)
+plot(rf_gridsearch)
 
 #ref https://machinelearningmastery.com/tune-machine-learning-algorithms-in-r/
 metric <- "Accuracy"

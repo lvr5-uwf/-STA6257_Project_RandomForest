@@ -203,6 +203,10 @@ Gini Impurity of a node with child nodes [@Robnik2004] $$
 Gini(A_i) = -\sum_{i = 1}^{c} p(y_i)^2 + \sum_{j = 1}^{m_i}p(v_{i,j})\sum_{i = 1}^{c}p(y_i|v_{i,j})^2
 $$
 
+Below is a sample of a single decision tree.
+
+![](RandomForestSample.png)
+
 The algorithm for random Random Forest is as follows [@Dimitriadis2018]:
 
 ```{=html}
@@ -394,6 +398,23 @@ smr
 
 ```
 
+<!--
+Below is a sample of a single decision tree.
+
+```{r}
+#| code-summary: "Code: Single Decision Tree Example"
+
+# #create this function variable so it is easier to change it as needed
+# model_fn <- Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol
+# 
+# #create model.  note rpart.control cp value needed for full dataset due to class imbalance
+# dt_model <- rpart(model_fn, data = df, method="class",
+#                   control = rpart.control(minsplit=2, cp=0.0000001, maxdepth = 4))
+# rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
+
+```
+-->
+
 ### Statistical Modeling
 
 Our intial analysis will use the default parameters.  The ranger package in R implements a fast version of random forest.  We are classifying the Diabetes Binary field using all of the remaining fields in the dataframe.  We are also outputting the variable importance using gini impurity as the importance measure.
@@ -409,16 +430,33 @@ print(diabetes.forest)
 
 This shows that our estimated error rate is around 25.6%, for an accuracy rate of around 74.4%.
 
+We can check the variable importance to determine the most important variables contributing to the classification. 
+
+<!--
 ```{r}
 #| code-summary: "Code: Importance Measures"
 
-#show importance measures
-sort(round(diabetes.forest$variable.importance, 2), decreasing = T)
+# #show importance measures
+# sort(round(diabetes.forest$variable.importance, 2), decreasing = T)
+
+```
+-->
+
+```{r}
+#| code-summary: "Code: Importance Measures"
+
+#create vi object for variable importance graph
+vi_values <- vi(diabetes.forest)
+#create variable importance graph
+vip(vi_values, aesthetics = list(fill="blue"))
+
 ```
 
-The most important variables impacting Diabetes were found to be BMI, High Blood Pressure, General Health, Age, Income, Physical and Mental Health.
+The most important variables impacting Diabetes were found to be BMI, General Health, High Blood Pressure, Age, Income, and Physical Health.
 
-Random Forest and other machine learning methods require hyperparameter tuning to obtain optimal settings for variables.  In this example a grid search is used to find the optimal number of variables to use for the split, which uses the "mtry" parameter.  For speed and efficiency, a stratified sample of 10% of the dataset was used for this algorithm. 
+##### Hyperparameter Tuning
+
+Random Forest and other machine learning methods require hyperparameter tuning to obtain optimal settings for variables.  Hyperparameters are parameters that can vary and different values can have a large effect on the model.  In this example a grid search is used to find the optimal number of variables to use for the split, which uses the "mtry" parameter.  For speed and efficiency, a stratified sample of 10% of the dataset was used for this algorithm. Stratified means that and equal number of the target class (e.g. Diabetes_binary) are present in the sample.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Tune Random Forest"
@@ -447,6 +485,64 @@ plot(rf_gridsearch)
 
 This plot shows that the optimal value for number of variables to split at each node peaks at 4 and declines from there.  Using this value should yield the optimal accuracy rate.  The number of trees was tuned manually and it was found that about 2000 trees is optimal.
 
+
+##### Questionaire Reduction
+
+The goal of the analysis is to reduce the number of questions needed on the questionaire and still have high accuracy.  Here we have selected the top 6 most important questions and re-run the classification to gauge accuracy.  It appears that with these 6 parameters we get an accuracy within 1% of the accuracy we got using all parameters.
+
+```{r, cache=TRUE}
+#| code-summary: "Code: Reduced Parameters"
+
+#use reduced list of parameters found by assessing variable importance
+reduced_model <- Diabetes_binary ~ BMI + GenHlth+ HighBP + Age + Income + PhysHlth
+diabetes.forest.reduced <- ranger(reduced_model, data=df)
+print(diabetes.forest.reduced)
+
+```
+
+##### Random Forest Prediction
+
+For prediction we want to split the data into train (70%) and test (30%) sets.
+
+Next the model is fit on the train set.  Finally the model is used to predict on the test set and the true value of the test set is compared to the predicted value.
+
+```{r, cache=TRUE}
+#| code-summary: "Code: Random Forest Model Fit & Prediction"
+
+#split data and stratify on class label
+parts <- splitTools::partition(df$Diabetes_binary, p=c(train = 0.7, test = 0.3))
+df.train <- df[parts$train,]
+df.test <- df[parts$test,]
+
+#train rf with train set
+diabetes.forest <- ranger(Diabetes_binary ~ ., data=df.train)
+
+#predict using test set
+preds <- predict(diabetes.forest, data = df.test, seed=randseed)
+
+```
+
+Now we compare the prediction with the true value to determine the model accuracy.
+
+```{r}
+#| code-summary: "Code: Confusion Matrix Plot"
+
+#create confusion matrix of prediction vs actual on test set
+confusion.test <- confusionMatrix(data=df.test$Diabetes_binary, reference=preds$predictions)
+#show confusion matrix plot, ref: https://www.delftstack.com/howto/r/visualize-confusion-matrix-in-r/
+fourfoldplot(confusion.test$table,color = c("cyan", "pink"),
+             conf.level = 0, margin = 1, main = "Confusion Matrix")
+
+```
+
+```{r}
+#| code-summary: "Code: Confusion Matrix Statistics"
+
+#show full confusion matrix output with accuracy values etc
+confusion.test
+
+```
+
 <!--
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Tuned"
@@ -458,20 +554,7 @@ This plot shows that the optimal value for number of variables to split at each 
 ```
 -->
 
-Below is a sample of a single decision tree.
 
-```{r}
-#| code-summary: "Code: Single Decision Tree Example"
-
-#create this function variable so it is easier to change it as needed
-model_fn <- Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol
-
-#create model.  note rpart.control cp value needed for full dataset due to class imbalance
-dt_model <- rpart(model_fn, data = df, method="class",
-                  control = rpart.control(minsplit=2, cp=0.0000001, maxdepth = 4))
-rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
-
-```
 
 <!--
 
