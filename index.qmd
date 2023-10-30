@@ -318,7 +318,7 @@ evenly split between having diabetes or not.[@DiabetesDataset]
 | PhysHlth             | Statement of physical health in past 30 days (not good).                                                          | (0, 30)         |
 | DiffWalk             | Difficulty walking up or down stairs.                                                                             | (0, 1)          |
 | Sex                  | Sex/gender                                                                                                        | (0, 1)          |
-| Age                  | Age group                                                                                                         | (7, 13)         |
+| Age                  | Age group                                                                                                         | (1, 13)         |
 | Education            | Highest grade completed.                                                                                          | (1, 6)          |
 | Income               | Annual household income.                                                                                          | (1, 8)          |
 
@@ -380,6 +380,30 @@ coltypes_collapsed <- paste(coltypes, collapse="")
 #read the full dataset into a dataframe - 50/50 split dataset
 df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_types = coltypes_collapsed)
 
+#set factor level order for factor variables
+df$Age <- factor(df$Age, levels = c("1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0", "10.0", "11.0", "12.0", "13.0"))
+df$GenHlth <- factor(df$GenHlth, levels = c("1.0", "2.0", "3.0", "4.0", "5.0"))
+df$Education <- factor(df$Education, levels = c("1.0", "2.0", "3.0", "4.0", "5.0", "6.0"))
+df$Income <- factor(df$Income, levels = c("1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"))
+
+binaryLevels <- c("0.0", "1.0")
+#set all binary factor fields up the same way
+df$Diabetes_binary <- factor(df$Diabetes_binary, levels = binaryLevels)
+df$HighBP <- factor(df$HighBP, levels = binaryLevels)
+df$HighChol <- factor(df$HighChol, levels = binaryLevels)
+df$CholCheck <- factor(df$CholCheck, levels = binaryLevels)
+df$Smoker <- factor(df$Smoker, levels = binaryLevels)
+df$Stroke <- factor(df$Stroke, levels = binaryLevels)
+df$HeartDiseaseorAttack <- factor(df$HeartDiseaseorAttack, levels = binaryLevels)
+df$PhysActivity <- factor(df$PhysActivity, levels = binaryLevels)
+df$Fruits <- factor(df$Fruits, levels = binaryLevels)
+df$Veggies <- factor(df$Veggies, levels = binaryLevels)
+df$HvyAlcoholConsump <- factor(df$HvyAlcoholConsump, levels = binaryLevels)
+df$AnyHealthcare <- factor(df$AnyHealthcare, levels = binaryLevels)
+df$NoDocbcCost <- factor(df$NoDocbcCost, levels = binaryLevels)
+df$DiffWalk <- factor(df$DiffWalk, levels = binaryLevels)
+df$Sex <- factor(df$DiffWalk, levels = binaryLevels)
+
 ```
 
 Summary of the variables in the data set and number of occurrences.
@@ -413,7 +437,8 @@ for (field in smr$meta_data$df_stats) {
     field_chart <- ggplot(field, aes(x = label, y = p, fill = label)) +
       geom_col() +
       xlab(field$variable[1]) + ylab("Percent") +
-      theme(legend.position = "none")
+      theme(legend.position = "none") + 
+      scale_x_discrete(limits = field$label)
     
     #add chart to correct list
     if (nrow(field) == 2) {

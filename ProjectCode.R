@@ -54,6 +54,30 @@ coltypes_collapsed <- paste(coltypes, collapse="")
 #read the full dataset into a dataframe - 50/50 split dataset
 df <- read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.zip", col_types = coltypes_collapsed)
 
+#set the factor levels
+df$Age <- factor(df$Age, levels = c("1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0", "9.0", "10.0", "11.0", "12.0", "13.0"))
+df$GenHlth <- factor(df$GenHlth, levels = c("1.0", "2.0", "3.0", "4.0", "5.0"))
+df$Education <- factor(df$Education, levels = c("1.0", "2.0", "3.0", "4.0", "5.0", "6.0"))
+df$Income <- factor(df$Income, levels = c("1.0", "2.0", "3.0", "4.0", "5.0", "6.0", "7.0", "8.0"))
+
+binaryLevels <- c("0.0", "1.0")
+#set all binary factor fields up the same way
+df$Diabetes_binary <- factor(df$Diabetes_binary, levels = binaryLevels)
+df$HighBP <- factor(df$HighBP, levels = binaryLevels)
+df$HighChol <- factor(df$HighChol, levels = binaryLevels)
+df$CholCheck <- factor(df$CholCheck, levels = binaryLevels)
+df$Smoker <- factor(df$Smoker, levels = binaryLevels)
+df$Stroke <- factor(df$Stroke, levels = binaryLevels)
+df$HeartDiseaseorAttack <- factor(df$HeartDiseaseorAttack, levels = binaryLevels)
+df$PhysActivity <- factor(df$PhysActivity, levels = binaryLevels)
+df$Fruits <- factor(df$Fruits, levels = binaryLevels)
+df$Veggies <- factor(df$Veggies, levels = binaryLevels)
+df$HvyAlcoholConsump <- factor(df$HvyAlcoholConsump, levels = binaryLevels)
+df$AnyHealthcare <- factor(df$AnyHealthcare, levels = binaryLevels)
+df$NoDocbcCost <- factor(df$NoDocbcCost, levels = binaryLevels)
+df$DiffWalk <- factor(df$DiffWalk, levels = binaryLevels)
+df$Sex <- factor(df$DiffWalk, levels = binaryLevels)
+
 #colnames(df)
 #summary(df)
 
@@ -82,7 +106,8 @@ for (field in smr$meta_data$df_stats) {
     field_chart <- ggplot(field, aes(x = label, y = p, fill = label)) +
       geom_col() +
       xlab(field$variable[1]) + ylab("Percent") +
-      theme(legend.position = "none")
+      theme(legend.position = "none") + 
+      scale_x_discrete(limits = field$label)
     
     #add chart to correct list
     if (nrow(field) == 2) {
@@ -99,11 +124,23 @@ grid.arrange(grobs=multiple_chart_list, ncol=2)
 
 smr$meta_data$df_stats[[1]]$variable[1]
 
-field_chart <- ggplot(smr$meta_data$df_stats[[1]], aes(x = label, y = p, fill = label)) +
+field_chart <- ggplot(smr$meta_data$df_stats[[20]], aes(x = label, y = p, fill = label)) +
   geom_col() +
   geom_text(aes(label = label),position = position_stack(vjust = 0.5), show.legend = F) +
-  xlab(paste(smr$meta_data$df_stats[[1]]$variable[1], "Distribution")) + ylab("Percent") +
-theme(legend.position = "none")
+  xlab(smr$meta_data$df_stats[[20]]$variable[1]) + ylab("Pct") +
+theme(legend.position = "none") +
+  scale_x_discrete(limits = smr$meta_data$df_stats[[20]]$label)
+field_chart
+
+field_chart <- ggplot(smr$meta_data$df_stats[[2]], aes(x = "", y = p, fill = label)) +
+  geom_col() + 
+  geom_text(aes(label = paste(100*round(p, 3), "%")), position = position_stack(vjust = 0.5), show.legend = F) +
+  ylab(smr$meta_data$df_stats[[2]]$variable[1]) + xlab("") +
+  coord_polar(theta = "y") +
+  guides(fill = guide_legend(title = "Value")) +
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(), 
+        panel.background = element_rect(fill = "white"))
 field_chart
 
 
@@ -230,7 +267,7 @@ cf <- cf %>% mutate(cfm.Label = factor(cfm.Label, levels = c("TN", "FN", "TP", "
 ggplot(cf, aes(x = cfm.Label, y = cfm.Percent, fill = cfm.Label)) +
   geom_col() +
   geom_text(aes(label = cfm.Label),position = position_stack(vjust = 0.5), show.legend = F) +
-  xlab("Confusion Matrix") + ylab("Percent")
+  xlab("Confusion Matrix") + ylab("Percent") +
   theme(legend.position = "none") #+ scale_fill_manual(values = cf$cfm.Label.Color)
 
 #pie(x = cf$cfm.Percent, y = cf$cfm.Label)
