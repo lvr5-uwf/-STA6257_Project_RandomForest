@@ -299,7 +299,7 @@ diabetes). This dataset has a 50-50 binary split, meaning the data is
 evenly split between having diabetes or not.[@DiabetesDataset]
 
 | Data Field           | Description of Data                                                                                               | Range of Values |
-|------------------|------------------------------------|------------------|
+|-------------------|----------------------------------|-------------------|
 | HighBP               | Told by a healthcare professional they have high blood pressure.                                                  | (0, 1)          |
 | HighChol             | Told by a healthcare professional they have high cholesterol.                                                     | (0, 1)          |
 | CholCheck            | Cholesterol check within past 5 years.                                                                            | (0, 1)          |
@@ -466,6 +466,7 @@ grid.arrange(grobs=multiple_chart_list, ncol=2)
 
 ```
 
+````{=html}
 <!--
 Below is a sample of a single decision tree.
 
@@ -482,10 +483,15 @@ Below is a sample of a single decision tree.
 
 ```
 -->
+````
 
 ### Statistical Modeling
 
-Our intial analysis will use the default parameters.  The ranger package in R implements a fast version of random forest.  We are classifying the Diabetes Binary field using all of the remaining fields in the dataframe.  We are also outputting the variable importance using gini impurity as the importance measure.
+Our intial analysis will use the default parameters. The ranger package
+in R implements a fast version of random forest. We are classifying the
+Diabetes Binary field using all of the remaining fields in the
+dataframe. We are also outputting the variable importance using gini
+impurity as the importance measure.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Defaults"
@@ -496,10 +502,13 @@ print(diabetes.forest)
 
 ```
 
-This shows that our estimated error rate is around 25.6%, for an accuracy rate of around 74.4%.
+This shows that our estimated error rate is around 25.6%, for an
+accuracy rate of around 74.4%.
 
-We can check the variable importance to determine the most important variables contributing to the classification. 
+We can check the variable importance to determine the most important
+variables contributing to the classification.
 
+````{=html}
 <!--
 ```{r}
 #| code-summary: "Code: Importance Measures"
@@ -509,6 +518,7 @@ We can check the variable importance to determine the most important variables c
 
 ```
 -->
+````
 
 ```{r}
 #| code-summary: "Code: Importance Measures"
@@ -520,11 +530,20 @@ vip(vi_values, aesthetics = list(fill="blue"))
 
 ```
 
-The most important variables impacting Diabetes were found to be BMI, General Health, High Blood Pressure, Age, Income, and Physical Health.
+The most important variables impacting Diabetes were found to be BMI,
+General Health, High Blood Pressure, Age, Income, and Physical Health.
 
 ##### Hyperparameter Tuning
 
-Random Forest and other machine learning methods require hyperparameter tuning to obtain optimal settings for variables.  Hyperparameters are parameters that can vary and different values can have a large effect on the model.  In this example a grid search is used to find the optimal number of variables to use for the split, which uses the "mtry" parameter.  For speed and efficiency, a stratified sample of 10% of the dataset was used for this algorithm. Stratified means that and equal number of the target class (e.g. Diabetes_binary) are present in the sample.
+Random Forest and other machine learning methods require hyperparameter
+tuning to obtain optimal settings for variables. Hyperparameters are
+parameters that can vary and different values can have a large effect on
+the model. In this example a grid search is used to find the optimal
+number of variables to use for the split, which uses the "mtry"
+parameter. For speed and efficiency, a stratified sample of 10% of the
+dataset was used for this algorithm. Stratified means that and equal
+number of the target class (e.g. Diabetes_binary) are present in the
+sample.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Tune Random Forest"
@@ -548,12 +567,18 @@ plot(rf_gridsearch)
 
 ```
 
-This plot shows that the optimal value for number of variables to split at each node peaks at 4 and declines from there.  Using this value should yield the optimal accuracy rate.  The number of trees was tuned manually and it was found that about 2000 trees is optimal.
-
+This plot shows that the optimal value for number of variables to split
+at each node peaks at 4 and declines from there. Using this value should
+yield the optimal accuracy rate. The number of trees was tuned manually
+and it was found that about 2000 trees is optimal.
 
 ##### Questionaire Reduction
 
-The goal of the analysis is to reduce the number of questions needed on the questionaire and still have high accuracy.  Here we have selected the top 6 most important questions and re-run the classification to gauge accuracy.  It appears that with these 6 parameters we get an accuracy within 1% of the accuracy we got using all parameters.
+The goal of the analysis is to reduce the number of questions needed on
+the questionaire and still have high accuracy. Here we have selected the
+top 6 most important questions and re-run the classification to gauge
+accuracy. It appears that with these 6 parameters we get an accuracy
+within 1% of the accuracy we got using all parameters.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Reduced Parameters"
@@ -567,9 +592,12 @@ print(diabetes.forest.reduced)
 
 ##### Random Forest Prediction
 
-For prediction we want to split the data into train (70%) and test (30%) sets.
+For prediction we want to split the data into train (70%) and test (30%)
+sets.
 
-Next the model is fit on the train set.  Finally the model is used to predict on the test set and the true value of the test set is compared to the predicted value.
+Next the model is fit on the train set. Finally the model is used to
+predict on the test set and the true value of the test set is compared
+to the predicted value.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Model Fit & Prediction"
@@ -587,7 +615,8 @@ preds <- predict(diabetes.forest, data = df.test, seed=randseed)
 
 ```
 
-Now we compare the prediction with the true value to determine the model accuracy.
+Now we compare the prediction with the true value to determine the model
+accuracy.
 
 ```{r}
 #| code-summary: "Code: Confusion Matrix Plot"
@@ -632,6 +661,7 @@ confusion.test
 
 ```
 
+````{=html}
 <!--
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Tuned"
@@ -642,9 +672,9 @@ confusion.test
 
 ```
 -->
+````
 
-
-
+````{=html}
 <!--
 
 The data set is split into training (75%) and testing (25%).
@@ -708,6 +738,7 @@ Accuracy results for the prediction model are as follows:
 ```
 
 -->
+````
 
 ### Conclusion
 
