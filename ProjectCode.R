@@ -169,8 +169,9 @@ diabetes.forest <- randomForest(Diabetes_binary ~ HighBP + GenHlth + BMI + HighC
 #votes (probability per row) is in the random forest model votes field
 diabetes.forest$votes
 
+
 #split data and stratify on class label
-parts <- splitTools::partition(df$Diabetes_binary, p=c(sample = 0.1, remainder = 0.9))
+parts <- splitTools::partition(df$Diabetes_binary, p=c(sample = 0.7, remainder = 0.3))
 df.sample <- df[parts$sample,]
 
 #create actual random forest with full list of variables for analysis
