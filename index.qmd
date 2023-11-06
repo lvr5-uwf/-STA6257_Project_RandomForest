@@ -535,7 +535,7 @@ variables contributing to the classification.
 #create vi object for variable importance graph
 vi_values <- vi(diabetes.forest)
 #create variable importance graph
-vip(vi_values, aesthetics = list(fill="blue"))
+vip(vi_values, aesthetics = list(fill="#2980B9"))
 
 ```
 
@@ -647,10 +647,10 @@ cf <- cf %>%  mutate(cfm.Label =
 
 #add color field to go with the labels - green is good and red is bad
 cf <- cf %>%  mutate(cfm.Label.Color = 
-                       case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "darkgreen",
-                                 cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "red", 
-                                 cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "darkgreen",
-                                 cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "red"))
+                       case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "#1D8348",
+                                 cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "#E74C3C", 
+                                 cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "#1D8348",
+                                 cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "#E74C3C"))
 #tried to set it to output in the order I wanted but it seems to have it's own order
 #this did nothing for the sort order of the output chart
 #cf <- cf %>% mutate(cfm.Label = factor(cfm.Label, levels = c("TN", "FN", "TP", "FP")))
@@ -750,6 +750,10 @@ Accuracy results for the prediction model are as follows:
 ````
 
 ### Conclusion
+
+We were able to use the Random Forest method to classify the data into Diabetic and Non-Diabetic with approximately 74.4% accuracy (prediction error 25.6%).  Additionally, the random forest classifier will rank the importance measures of the variables to determine the most important variables contributing to the classification.  Using this information we were able to select the top variables for a reduced questionnaire of 6 questions compared to the original 20 questions.  The classifier the reduced number of questions is able to classify the data with approximately 73.5% accuracy (prediction error 26.5%).
+
+We demonstrated hyperparameter tuning for Random Forest for the mtry parameter and manually tuned the number of trees.  We also demonstrated using random forest for prediction of unseen data and showed the method of gauging prediction accuracy comparing the true value with the predicted value on the unseen test data.  We hope this is a good introduction to the purpose and usage of the random forest method for those who are not familiar with it.
 
 ## References
 

@@ -193,7 +193,7 @@ sort(round(diabetes.forest$variable.importance, 2), decreasing = T)
 #create vi object for variable importance graph
 vi_values <- vi(diabetes.forest)
 #create variable importance graph
-vip(vi_values, aesthetics = list(fill="blue"))
+vip(vi_values, aesthetics = list(fill="#2980B9"))
 
 #now try with specific parameters
 diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=4, num.trees=2000, importance = 'impurity')
@@ -238,10 +238,10 @@ ConfusionMatrixChart <- function(conf_matrix){
   
   #add color field to go with the labels - green is good and red is bad
   cf <- cf %>%  mutate(cfm.Label.Color = 
-                         case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "darkgreen",
-                                   cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "red", 
-                                   cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "darkgreen",
-                                   cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "red"))
+                         case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "#1D8348",
+                                   cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "#E74C3C", 
+                                   cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "#1D8348",
+                                   cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "#E74C3C"))
   #tried to set it to output in the order I wanted but it seems to have it's own order
   #this did nothing for the sort order of the output chart
   #cf <- cf %>% mutate(cfm.Label = factor(cfm.Label, levels = c("TN", "FN", "TP", "FP")))
@@ -266,19 +266,25 @@ cf <- cf %>%  mutate(cfm.Label =
 
 #add color field to go with the labels - green is good and red is bad
 cf <- cf %>%  mutate(cfm.Label.Color = 
-                       case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "darkgreen",
-                                 cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "red", 
-                                 cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "darkgreen",
-                                 cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "red"))
+                       case_when(cfm.Prediction == "0.0" & cfm.Reference == "0.0" ~ "#1D8348",
+                                 cfm.Prediction == "0.0" & cfm.Reference == "1.0" ~ "#E74C3C", 
+                                 cfm.Prediction == "1.0" & cfm.Reference == "1.0" ~ "#1D8348",
+                                 cfm.Prediction == "1.0" & cfm.Reference == "0.0" ~ "#E74C3C"))
 #tried to set it to output in the order I wanted but it seems to have it's own order
 #this did nothing for the sort order of the output chart
 cf <- cf %>% mutate(cfm.Label = factor(cfm.Label, levels = c("TN", "FN", "TP", "FP")))
 
-ggplot(cf, aes(x = cfm.Label, y = cfm.Percent, fill = cfm.Label)) +
+#trying ggplot pie chart - still not as good as the other
+ggplot(cf, aes(x = "", y = cfm.Percent, fill = cfm.Label)) +
   geom_col() +
   geom_text(aes(label = cfm.Label),position = position_stack(vjust = 0.5), show.legend = F) +
-  xlab("Confusion Matrix") + ylab("Percent") +
-  theme(legend.position = "none") #+ scale_fill_manual(values = cf$cfm.Label.Color)
+  xlab("") + ylab("Confusion Matrix") +
+  coord_polar(theta = "y") +
+  guides(fill = guide_legend(title = "Value")) +
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(), 
+        panel.background = element_rect(fill = "white")) +
+  scale_fill_manual(values = c("#1D8348","#E74C3C","#1D8348","#E74C3C")) 
 
 #pie(x = cf$cfm.Percent, y = cf$cfm.Label)
 
