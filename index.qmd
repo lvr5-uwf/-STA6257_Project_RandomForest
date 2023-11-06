@@ -577,7 +577,7 @@ plot(rf_gridsearch)
 ```
 
 This plot shows that the optimal value for number of variables to split
-at each node peaks at 4 and declines from there. Using this value should
+at each node peaks at 3 and declines from there. Using this value should
 yield the optimal accuracy rate. The number of trees was tuned manually
 and it was found that about 2000 trees is optimal.
 
