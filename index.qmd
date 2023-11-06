@@ -433,17 +433,26 @@ for (field in smr$meta_data$df_stats) {
   #print(field)
   #if this is a field with a probability field
   if ("p" %in% names(field)) {
-    #create ggplot
-    field_chart <- ggplot(field, aes(x = label, y = p, fill = label)) +
-      geom_col() +
-      xlab(field$variable[1]) + ylab("Percent") +
-      theme(legend.position = "none") + 
-      scale_x_discrete(limits = field$label)
-    
     #add chart to correct list
     if (nrow(field) == 2) {
+      #create ggplot for field with binary values
+      field_chart <- ggplot(field, aes(x = label, y = p, fill = label)) +
+        geom_col() +
+        xlab(field$variable[1]) + ylab("Percent") +
+        theme(legend.position = "none") +
+        scale_fill_manual(values=c("#E74C3C","#1D8348")) +
+        scale_x_discrete(limits = field$label)
+      
       binary_chart_list[[field$variable[1]]] <- field_chart
     } else {
+      #create ggplot for field with multiple values
+      field_chart <- ggplot(field, aes(x = label, y = p, fill="#2980B9")) +
+        geom_col() +
+        xlab(field$variable[1]) + ylab("Percent") +
+        theme(legend.position = "none") + 
+        scale_fill_manual(values="#2980B9") +
+        scale_x_discrete(limits = field$label)
+      
       multiple_chart_list[[field$variable[1]]] <- field_chart
     }
   }
