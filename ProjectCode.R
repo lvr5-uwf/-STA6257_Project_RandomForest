@@ -196,12 +196,12 @@ vi_values <- vi(diabetes.forest)
 vip(vi_values, aesthetics = list(fill="#2980B9"))
 
 #now try with specific parameters
-diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=4, num.trees=2000, importance = 'impurity')
+diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=3, num.trees=2000, importance = 'impurity')
 print(diabetes.forest)
 
 #use reduced list of parameters found by assessing variable importance
-reduced_model <- Diabetes_binary ~ BMI + HighBP + GenHlth + Age + Income + PhysHlth
-diabetes.forest.reduced <- ranger(reduced_model)
+diabetes.forest.reduced <- ranger(Diabetes_binary ~ BMI + HighBP + GenHlth + Age,
+                                  num.trees=2000, data=df)
 print(diabetes.forest.reduced)
 
 #split data and stratify on class label

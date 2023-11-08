@@ -498,11 +498,13 @@ Below is a sample of a single decision tree.
 
 ### Statistical Modeling
 
-Our intial analysis will use the default parameters. The ranger package
+The goal of this analysis is to gauge the level of predictive accuracy of the variables in the data set while using the random forest method.  As part of the analysis we will be utilizing the importance measures output to determine the most important questions in the questionnaire. Once we have the variables ranked by importance, we will create a reduced version of the questionnaire with less questions and gauge accuracy of the reduced version of the questionnaire.  With this information we can increase participation by having a shorter time commitment to complete the survey.
+
+Our initial random forest analysis will use the default parameters. The ranger package
 in R implements a fast version of random forest. We are classifying the
 Diabetes Binary field using all of the remaining fields in the
-dataframe. We are also outputting the variable importance using gini
-impurity as the importance measure.
+data set. We are also outputting the variable importance using gini
+impurity as the importance measure.    
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Defaults"
@@ -513,7 +515,7 @@ print(diabetes.forest)
 
 ```
 
-This shows that our estimated error rate is around 25.6%, for an
+This shows that our estimated prediction error is around 25.6%, for an
 accuracy rate of around 74.4%.
 
 We can check the variable importance to determine the most important
@@ -542,7 +544,7 @@ vip(vi_values, aesthetics = list(fill="#2980B9"))
 ```
 
 The most important variables impacting Diabetes were found to be BMI,
-General Health, High Blood Pressure, Age, Income, and Physical Health.
+General Health, High Blood Pressure, and Age.
 
 ##### Hyperparameter Tuning
 
@@ -583,32 +585,41 @@ at each node peaks at 3 and declines from there. Using this value should
 yield the optimal accuracy rate. The number of trees was tuned manually
 and it was found that about 2000 trees is optimal.
 
-##### Questionaire Reduction
+```{r, cache=TRUE}
+#| code-summary: "Code: Random Forest Tuned"
+
+#now try with specific parameters found by tuning
+diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, 
+                          mtry=3, num.trees=2000, verbose = FALSE)
+print(diabetes.forest)
+
+```
+
+The tuned model has a prediction error of 25.1% for a higher accuracy of 74.9%.
+
+##### Questionnaire Reduction
 
 The goal of the analysis is to reduce the number of questions needed on
-the questionaire and still have high accuracy. Here we have selected the
-top 6 most important questions and re-run the classification to gauge
-accuracy. It appears that with these 6 parameters we get an accuracy
-within 1% of the accuracy we got using all parameters.
+the questionnaire and still have high accuracy. Here we have selected the
+top 4 most important questions and re-run the classification to gauge
+accuracy. 
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Reduced Parameters"
 
 #use reduced list of parameters found by assessing variable importance
-reduced_model <- Diabetes_binary ~ BMI + GenHlth+ HighBP + Age + Income + PhysHlth
-diabetes.forest.reduced <- ranger(reduced_model, data=df)
+diabetes.forest.reduced <- ranger(Diabetes_binary ~ BMI + GenHlth + HighBP + Age, data=df)
 print(diabetes.forest.reduced)
 
 ```
 
+From this result we can see that using a questionnaire with only 4 questions will allow us to still have 74.0% accuracy (prediction error 26.0%).  Amazing!
+
 ##### Random Forest Prediction
 
-For prediction we want to split the data into train (70%) and test (30%)
-sets.
+Next we want to illustrate how to use prediction with random forest.  For prediction the first thing we want to do is to split the data into train (70%) and test (30%) sets.
 
-Next the model is fit on the train set. Finally the model is used to
-predict on the test set and the true value of the test set is compared
-to the predicted value.
+Next the model is fit on the train set, leaving the test set as "unseen" data. Finally the model is used to predict on the test set and the true value of the test set is compared to the predicted value.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Model Fit & Prediction"
@@ -619,7 +630,8 @@ df.train <- df[parts$train,]
 df.test <- df[parts$test,]
 
 #train rf with train set
-diabetes.forest <- ranger(Diabetes_binary ~ ., data=df.train)
+diabetes.forest <- ranger(Diabetes_binary ~ ., data=df.train, 
+                          mtry=3, num.trees=2000, verbose = FALSE)
 
 #predict using test set
 preds <- predict(diabetes.forest, data = df.test, seed=randseed)
@@ -678,7 +690,7 @@ confusion.test
 #| code-summary: "Code: Random Forest Tuned"
 
 # #now try with specific parameters found by tuning
-# diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=4, num.trees=2000)
+# diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, mtry=3, num.trees=2000)
 # print(diabetes.forest)
 
 ```
@@ -753,9 +765,9 @@ Accuracy results for the prediction model are as follows:
 
 ### Conclusion
 
-We were able to use the Random Forest method to classify the data into Diabetic and Non-Diabetic with approximately 74.4% accuracy (prediction error 25.6%).  Additionally, the random forest classifier will rank the importance measures of the variables to determine the most important variables contributing to the classification.  Using this information we were able to select the top variables for a reduced questionnaire of 6 questions compared to the original 20 questions.  The classifier the reduced number of questions is able to classify the data with approximately 73.5% accuracy (prediction error 26.5%).
+We were able to use the Random Forest method to classify the data into Diabetic and Non-Diabetic with approximately 74.9% accuracy (prediction error 25.1%).  Additionally, we showed how to use the random forest classifier to rank the importance measures of the variables to determine the most important variables contributing to the classification.  Using this information we were able to select the top variables for a reduced questionnaire of 4 questions compared to the original 20 questions.  The classifier with the reduced number of questions is able to classify the data with approximately 74.0% accuracy (prediction error 26.0%).
 
-We demonstrated hyperparameter tuning for Random Forest for the mtry parameter and manually tuned the number of trees.  We also demonstrated using random forest for prediction of unseen data and showed the method of gauging prediction accuracy comparing the true value with the predicted value on the unseen test data.  We hope this is a good introduction to the purpose and usage of the random forest method for those who are not familiar with it.
+We demonstrated hyperparameter tuning for Random Forest for the mtry parameter and manually tuned the number of trees.  We also demonstrated using random forest for prediction of unseen data and showed the method of gauging prediction accuracy comparing the true value with the predicted value on the unseen test data.  We appreciate this opportunity to provide an introduction to the purpose and usage of the random forest method for those who are not familiar with it.
 
 ## References
 
