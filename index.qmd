@@ -287,7 +287,7 @@ This dataset focuses on diabetes, a chronic health condition affecting
 millions of people worldwide. Diabetes can cause serious complications
 and lower quality of life; therefore, there is a need to try to predict
 an individual's risk of developing diabetes in the hopes that preventive
-measures can be taken to improve outcomes.[@DiabetesDataset]
+measures can be taken to improve outcomes [@DiabetesDataset].
 
 This dataset is a subset of the The Behavioral Risk Factor Surveillance
 System (BRFSS) dataset. The BRFSS is a survey conducted by the CDC to
@@ -296,7 +296,7 @@ conditions. The diabetes dataset includes 21 feature variables and
 70,692 survey responses. The response variable is whether or not an
 individual has diabetes (indicated by 0 for no or 1 for pre-diabetes or
 diabetes). This dataset has a 50-50 binary split, meaning the data is
-evenly split between having diabetes or not.[@DiabetesDataset]
+evenly split between having diabetes or not [@DiabetesDataset].
 
 | Data Field           | Description of Data                                                                                               | Range of Values |
 |-------------------|----------------------------------|-------------------|
@@ -406,8 +406,6 @@ df$Sex <- factor(df$DiffWalk, levels = binaryLevels)
 
 ```
 
-Summary of the variables in the data set and number of occurrences.
-
 ```{r}
 #| code-summary: "Code: Create summary"
 
@@ -468,12 +466,16 @@ grid.arrange(grobs=binary_chart_list, ncol=4)
 
 ```
 
+Summary of the binary variables in the data set.
+
 ```{r}
 #| code-summary: "Code: Output summary"
 
 grid.arrange(grobs=multiple_chart_list, ncol=2)
 
 ```
+
+Summary of the multi-valued variables in the data set.
 
 ````{=html}
 <!--
