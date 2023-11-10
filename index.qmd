@@ -498,13 +498,22 @@ Below is a sample of a single decision tree.
 
 ### Statistical Modeling
 
-The goal of this analysis is to gauge the level of predictive accuracy of the variables in the data set while using the random forest method.  As part of the analysis we will be utilizing the importance measures output to determine the most important questions in the questionnaire. Once we have the variables ranked by importance, we will create a reduced version of the questionnaire with less questions and gauge accuracy of the reduced version of the questionnaire.  With this information we can increase participation by having a shorter time commitment to complete the survey.
+The goal of this analysis is to gauge the level of predictive accuracy
+of the variables in the data set while using the random forest method.
+As part of the analysis we will be utilizing the importance measures
+output to determine the most important questions in the aforementioned
+Behavioral Risk Factor Surveillance System (BRFSS) questionnaire. Once
+we have the variables ranked by importance, we will create a reduced
+version of the BRFSS questionnaire with less questions and gauge
+accuracy of the reduced version of the BRFSS questionnaire. With this
+information we can increase participation by having a shorter time
+commitment to complete the survey.
 
-Our initial random forest analysis will use the default parameters. The ranger package
-in R implements a fast version of random forest. We are classifying the
-Diabetes Binary field using all of the remaining fields in the
-data set. We are also outputting the variable importance using gini
-impurity as the importance measure.    
+Our initial random forest analysis will use the default parameters. The
+ranger package in R implements a fast version of random forest. We are
+classifying the Diabetes Binary field using all of the remaining fields
+in the data set. We are also outputting the variable importance using
+Gini impurity as the importance measure.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Defaults"
@@ -554,7 +563,7 @@ parameters that can vary and different values can have a large effect on
 the model. In this example a grid search is used to find the optimal
 number of variables to use for the split, which uses the "mtry"
 parameter. For speed and efficiency, a stratified sample of 10% of the
-dataset was used for this algorithm. Stratified means that and equal
+dataset was used for this algorithm. Stratified means that an equal
 number of the target class (e.g. Diabetes_binary) are present in the
 sample.
 
@@ -595,14 +604,15 @@ print(diabetes.forest)
 
 ```
 
-The tuned model has a prediction error of 25.1% for a higher accuracy of 74.9%.
+The tuned model has a prediction error of 25.1% for a higher accuracy of
+74.9%.
 
 ##### Questionnaire Reduction
 
 The goal of the analysis is to reduce the number of questions needed on
-the questionnaire and still have high accuracy. Here we have selected the
-top 4 most important questions and re-run the classification to gauge
-accuracy. 
+the Behavioral Risk Factor Surveillance System (BRFSS) and still have
+high accuracy. Here we have selected the top 4 most important questions
+and re-run the classification to gauge accuracy.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Reduced Parameters"
@@ -613,13 +623,19 @@ print(diabetes.forest.reduced)
 
 ```
 
-From this result we can see that using a questionnaire with only 4 questions will allow us to still have 74.0% accuracy (prediction error 26.0%).  Amazing!
+From this result we can see that using a questionnaire with only 4
+questions will allow us to still have 74.0% accuracy (prediction error
+26.0%). Amazing!
 
 ##### Random Forest Prediction
 
-Next we want to illustrate how to use prediction with random forest.  For prediction the first thing we want to do is to split the data into train (70%) and test (30%) sets.
+Next we want to illustrate how to use prediction with random forest. For
+prediction the first thing we want to do is to split the data into train
+(70%) and test (30%) sets.
 
-Next the model is fit on the train set, leaving the test set as "unseen" data. Finally the model is used to predict on the test set and the true value of the test set is compared to the predicted value.
+Next the model is fit on the train set, leaving the test set as "unseen"
+data. Finally the model is used to predict on the test set and the true
+value of the test set is compared to the predicted value.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Random Forest Model Fit & Prediction"
@@ -640,6 +656,19 @@ preds <- predict(diabetes.forest, data = df.test, seed=randseed)
 
 Now we compare the prediction with the true value to determine the model
 accuracy.
+
+A confusion matrix calculates True Positive, True Negative, False
+Positive, and False Negative values. True Positive (TP) is a sample
+classified as positive which is in fact positive. True Negative (TN)
+refers to a sample classified as negative which indeed is negative.
+False Positive (FP) refers to a sample incorrectly classified as
+positive when it is in fact negative. False Negative (FN) refers to a
+sample incorrectly classified as negative when it is in fact positive.
+From these values, the accuracy can be obtained as:
+
+![](images/Accuracy.png) [@Kundu]
+
+This allows us a deeper understanding of the model, as we can easily see the model's accuracy as it relates to positive and negative classifications.
 
 ```{r}
 #| code-summary: "Code: Confusion Matrix Plot"
@@ -765,9 +794,24 @@ Accuracy results for the prediction model are as follows:
 
 ### Conclusion
 
-We were able to use the Random Forest method to classify the data into Diabetic and Non-Diabetic with approximately 74.9% accuracy (prediction error 25.1%).  Additionally, we showed how to use the random forest classifier to rank the importance measures of the variables to determine the most important variables contributing to the classification.  Using this information we were able to select the top variables for a reduced questionnaire of 4 questions compared to the original 20 questions.  The classifier with the reduced number of questions is able to classify the data with approximately 74.0% accuracy (prediction error 26.0%).
+We were able to use the Random Forest method to classify the data into
+Diabetic and Non-Diabetic with approximately 74.9% accuracy (prediction
+error 25.1%). Additionally, we showed how to use the random forest
+classifier to rank the importance measures of the variables to determine
+the most important variables contributing to the classification. Using
+this information we were able to select the top variables for a reduced
+version of the Behavioral Risk Factor Surveillance System (BRFSS) of 4
+questions compared to the original 20 questions. The classifier with the
+reduced number of questions is able to classify the data with
+approximately 74.0% accuracy (prediction error 26.0%).
 
-We demonstrated hyperparameter tuning for Random Forest for the mtry parameter and manually tuned the number of trees.  We also demonstrated using random forest for prediction of unseen data and showed the method of gauging prediction accuracy comparing the true value with the predicted value on the unseen test data.  We appreciate this opportunity to provide an introduction to the purpose and usage of the random forest method for those who are not familiar with it.
+We demonstrated hyperparameter tuning for Random Forest for the mtry
+parameter and manually tuned the number of trees. We also demonstrated
+using random forest for prediction of unseen data and showed the method
+of gauging prediction accuracy comparing the true value with the
+predicted value on the unseen test data. We appreciate this opportunity
+to provide an introduction to the purpose and usage of the random forest
+method for those who are not familiar with it.
 
 ## References
 
