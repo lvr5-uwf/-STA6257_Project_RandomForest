@@ -14,54 +14,18 @@ execute:
   warning: false
   message: false
 ---
----
-format: 
-  revealjs:
-    slide-number: true
-    transition: slide
-self-contained: true
-execute: 
-  warning: false
-  message: false
----
+
 ## Introduction to Random Forest
 - Random forest is an ensemble learning method composed of multiple decision trees.
 - Random forest is used in a variety of applications such as ecology, medicine, astronomy, agriculture, traffic, and bioinformatics.
 - Random forest improves on the decision tree method for classification (predicting a class label) and regression (predicting a continuous value).
 
----
-format: 
-  revealjs:
-    slide-number: true
-    transition: slide
-self-contained: true
-execute: 
-  warning: false
-  message: false
----
+
 ## Variable Selection
 - We seek to reduce the number of survey questions (and variables) and focus on the most influential predictors of diabetes.
 - We accomplished this by calculating the variable importance using the Gini impurity value.
 - The most important variables impacting Diabetes were found to be BMI,
 General Health, High Blood Pressure, Age, Income, and Physical Health.
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
-
-## Bullets
-
-When you click the **Render** button a document will be generated that includes:
-
--   Content authored with markdown
--   Output from executable code
-
-## Code
-
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
 
 
