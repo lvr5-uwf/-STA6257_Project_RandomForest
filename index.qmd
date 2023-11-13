@@ -657,19 +657,6 @@ preds <- predict(diabetes.forest, data = df.test, seed=randseed)
 Now we compare the prediction with the true value to determine the model
 accuracy.
 
-A confusion matrix calculates True Positive, True Negative, False
-Positive, and False Negative values. True Positive (TP) is a sample
-classified as positive which is in fact positive. True Negative (TN)
-refers to a sample classified as negative which indeed is negative.
-False Positive (FP) refers to a sample incorrectly classified as
-positive when it is in fact negative. False Negative (FN) refers to a
-sample incorrectly classified as negative when it is in fact positive.
-From these values, the accuracy can be obtained as:
-
-![](images/Accuracy.png) [@Kundu]
-
-This allows us a deeper understanding of the model, as we can easily see the model's accuracy as it relates to positive and negative classifications.
-
 ```{r}
 #| code-summary: "Code: Confusion Matrix Plot"
 #| layout: [[60,40]]
@@ -705,13 +692,35 @@ PieChart(x = cfm.Label, y = cfm.Percent, hole = 0, values = "%", data = cf,
 
 ```
 
+A confusion matrix calculates True Positive, True Negative, False
+Positive, and False Negative values. True Positive (TP) is a sample
+classified as positive which is in fact positive. True Negative (TN)
+refers to a sample classified as negative which indeed is negative.
+False Positive (FP) refers to a sample incorrectly classified as
+positive when it is in fact negative. False Negative (FN) refers to a
+sample incorrectly classified as negative when it is in fact positive.
+From these values, the accuracy can be obtained as:
+
+![](images/Accuracy.png){width=50%}
+
+[@Kundu]
+
+This allows us a deeper understanding of the model, as we can easily 
+see the model's accuracy as it relates to positive and negative 
+classifications. In this case our model's accuracy is approximately 
+75% as illustrated in the pie chart above.
+
+````{=html}
+<!--
 ```{r}
 #| code-summary: "Code: Confusion Matrix Statistics"
 
 #show full confusion matrix output with accuracy values etc
-confusion.test
+#confusion.test
 
 ```
+-->
+````
 
 ````{=html}
 <!--
