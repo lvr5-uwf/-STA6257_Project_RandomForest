@@ -52,14 +52,12 @@ editor:
     variety of artificial intelligence and machine learning tasks.
 -   Decision trees divide data by fields, creating subsets called nodes.
     Cutoffs are applied based on statistics [@deVille2013].
--   Researchers have sought to make improvements to decision tree
-    classifiers, such as reducing bias and variance.
+-   Improvements to decision tree classifiers reduce bias and variance.
     -   Resampling training data and using multiple trees
     -   Bootstrap aggregating (bagging) and AdaBoost
     -   Multi-tree solutions: voting over multiple trees and using split
         methods of alternative splits and oblique splits [@Breiman1996].
--   The Random Forest method is an ensemble method (uses several methods
-    to solve a problem).
+-   Random Forest is an ensemble method (uses several methods to solve a problem).
 -   Diversity among methods is indicated by methods making different
     errors, leading to improvements in classifications [@Fawagreh2014].
 
@@ -324,23 +322,12 @@ Data Source:
 <a href="https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset" target="_blank">Diabetes
 Health Indicators Dataset (Kaggle)</a>
 
--   This dataset focuses on diabetes, a chronic health condition
-    affecting millions of people worldwide.
--   Diabetes can cause serious complications and lower quality of life;
-    therefore, there is a need to try to predict an individual's risk of
-    developing diabetes in the hopes that preventive measures can be
-    taken to improve outcomes [@DiabetesDataset].
--   This dataset is a subset of the The Behavioral Risk Factor
-    Surveillance System (BRFSS) dataset.
-    -   The BRFSS is a survey conducted by the CDC to examine Americans'
-        responses in the areas of health behaviors and conditions.
-    -   The diabetes dataset includes 21 feature variables and 70,692
-        survey responses.
-    -   The response variable is whether or not an individual has
-        diabetes (indicated by 0 for no or 1 for pre-diabetes or
-        diabetes).
-    -   This dataset has a 50-50 binary split, meaning the data is
-        evenly split between having diabetes or not [@DiabetesDataset].
+-   This dataset focuses on diabetes, a chronic health condition affecting millions of people worldwide that can cause serious complications and lower quality of life.
+-   There is a need to predict an individual's risk of developing diabetes in the hopes that preventive measures can be taken to improve outcomes [@DiabetesDataset].
+-   This dataset is a subset of data from the The Behavioral Risk Factor Surveillance System (BRFSS), a survey conducted by the CDC to examine Americans' responses in the areas of health behaviors and conditions.
+    -   The diabetes dataset includes 21 feature variables and 70,692 survey responses.
+    -   The response variable is whether or not an individual has diabetes (indicated by 0 for no or 1 for pre-diabetes or diabetes).
+    -   This dataset has a 50-50 binary split, meaning the data is evenly split between having diabetes or not [@DiabetesDataset].
 
 ## Data Set Variables
 
@@ -565,25 +552,15 @@ Below is a sample of a single decision tree.
 
 ## Statistical Modeling
 
--   Our goal: Determine the level of predictive accuracy of the
-    variables in the data set while using the random forest method.
+-   Our goal: Determine the level of predictive accuracy of the variables in the data set while using the random forest method.
 -   Our steps taken:
-    -   Analyze variable importance measures to find the most important
-        questions in the Behavioral Risk Factor Surveillance System
-        (BRFSS) questionnaire.
-    -   Create a reduced version of the BRFSS questionnaire with less
-        questions
-    -   Gauge accuracy of the reduced version of the BRFSS
-        questionnaire, with the idea that a reduced version will
-        increase future participation in the survey.
-    -   Our initial random forest analysis will use the default
-        parameters.
-    -   We will use the **ranger** package in R to implement a fast
-        version of random forest.
-    -   We are classify the Diabetes Binary field using all of the
-        remaining fields in the data set.
-    -   We are also outputting the variable importance using Gini
-        impurity as the importance measure.
+    -   Analyze variable importance measures to find the most important questions in the Behavioral Risk Factor Surveillance System (BRFSS) questionnaire.
+    -   Create a version of the BRFSS questionnaire with less questions
+    -   Gauge accuracy of the reduced version of the BRFSS questionnaire, with the idea that a reduced version will increase future participation in the survey.
+    -   Our initial random forest analysis will use default parameters.
+    -   We will use the **ranger** package in R to implement a fast version of random forest.
+    -   We classify the Diabetes Binary field using all of the remaining fields in the data set.
+    -   We output the variable importance using Gini impurity as the importance measure.
 
 ## Random Forest Defaults
 
@@ -688,11 +665,8 @@ print(diabetes.forest)
 
 ## Questionnaire Reduction
 
--   The goal of the analysis is to reduce the number of questions needed
-    on the Behavioral Risk Factor Surveillance System (BRFSS) and still
-    have high accuracy.
--   Here we have selected the top 4 most important questions and re-run
-    the classification to gauge accuracy.
+-   The goal is to reduce the number of questions needed on the Behavioral Risk Factor Surveillance System (BRFSS) and maintain high accuracy.
+-   We select the top 4 questions and run the classification to gauge accuracy.
 
 ```{r, cache=TRUE}
 #| code-summary: "Code: Reduced Parameters"
@@ -702,10 +676,7 @@ diabetes.forest.reduced <- ranger(Diabetes_binary ~ BMI + GenHlth + HighBP + Age
 print(diabetes.forest.reduced)
 
 ```
-
--   From this result we can see that using a questionnaire with only 4
-    questions will allow us to still have 74.0% accuracy (prediction
-    error 26.0%). Amazing!
+-   This result shows a questionnaire with 4 questions still has 74.0% accuracy (prediction error 26.0%). Amazing!
 
 ## Random Forest Prediction
 
@@ -780,18 +751,15 @@ PieChart(x = cfm.Label, y = cfm.Percent, hole = 0, values = "%", data = cf,
     Positive, and False Negative values.
 -   True Positive (TP) is a sample classified as positive which is in
     fact positive, True Negative (TN) a negative which
-    indeed is negative, False Positive (FP) a positive when it is in fact negative,
-    and False Negative (FN) a negative when it is in fact positive.
+    indeed is negative, False Positive (FP) a positive when it is in fact negative, and False Negative (FN) a negative when it is in fact positive.
 -   From these values, the accuracy can be obtained as:
 
-![](images/Accuracy.png){width=50%}
+![](images/Accuracy.png)
 
 [@Kundu]
 
--   This allows us a deeper understanding of the model, as we can easily
-    see the model's accuracy as it relates to positive and negative
-    classifications. -In this case our model's accuracy is approximately
-    75% as illustrated in the pie chart above.
+-   This allows us a deeper understanding of the model, as we can easily see the model's accuracy as it relates to positive and negative classifications. 
+-   In this case our model's accuracy is approximately 75% as illustrated in the pie chart above.
 
 ## Conclusion
 
@@ -807,6 +775,9 @@ PieChart(x = cfm.Label, y = cfm.Percent, hole = 0, values = "%", data = cf,
 -   The classifier with the reduced number of questions is able to
     classify the data with approximately 74.0% accuracy (prediction
     error 26.0%).
+    
+## Conclusion (continued)
+
 -   We demonstrated hyperparameter tuning for Random Forest for the mtry
     parameter and manually tuned the number of trees.
 -   We also demonstrated using random forest for prediction of unseen
