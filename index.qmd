@@ -20,6 +20,7 @@ editor:
   markdown: 
     wrap: 72
 ---
+[Slides](slides.html)
 
 ## Introduction
 
@@ -207,10 +208,10 @@ Below is a sample of a single decision tree.
 
 ![](RandomForestSample.png)
 
-The algorithm for random Random Forest is as follows [@Dimitriadis2018]:
+The algorithm for random Random Forest is as follows:
 
 ```{=html}
-<ol>
+<ol style="font-style: italic; margin: auto 10%; background-color: rgba(233,236,239,.35);">
 <li>
 At the current node, randomly select p features from available features D. 
 The number of features p is usually much smaller than the total number of features D. 
@@ -232,7 +233,7 @@ Vote or aggregate on the output of each tree in the forest.
 </li>
 </ol>
 ```
-(quoted directly from source)
+**Source: [@Dimitriadis2018]**
 
 The error rate for a random forest model can be calculated using a
 method called the "out of bag" estimate. This is calculated by the using
