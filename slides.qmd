@@ -138,7 +138,11 @@ editor:
 -   Another improvement is the fact that each tree has unique features
     due to the PCA algorithm being applied on each tree, so the trees
     are less correlated, which has been shown to increase accuracy.
+-   Next we will discuss applications of Random Forest.
 
+
+```{=html}
+<!--
 ## Using PCA to Enhance
 
 -   Attempt to improve on random forest methods by using PCA to create
@@ -171,6 +175,8 @@ editor:
     simple model to prove consistency.
 -   This introduces the question: problems themselves aren't always
     consistent so can the solutions be consistent?
+-->
+```
 
 ## Applications
 
@@ -240,6 +246,8 @@ $$
 ## Decision Tree Example
 
 ![](RandomForestSample.png)
+
+This decision tree shows a split on the HighBP field, with 44% having Yes on the left, and 56% having No on the right, and so on.  The lowest level shows the classification.
 
 ## Random Forest Algorithm
 
@@ -377,10 +385,14 @@ Health Indicators Dataset (Kaggle)</a>
 | Education  | Highest grade completed.                                 | (1, 6)          |
 | Income     | Annual household income.                                 | (1, 8)          |
 
+<!--
 ## Code: Load Data
+-->
+
 
 ```{r}
 #| code-summary: "Code: Import Libraries"
+#| echo: false
 
 library(tidyverse)
 #library(dplyr)
@@ -402,6 +414,7 @@ library(lessR)
 
 ```{r}
 #| code-summary: "Code: Load data"
+#| echo: false
 
 randseed <- 123456
 set.seed(randseed)
@@ -461,11 +474,14 @@ df$Sex <- factor(df$DiffWalk, levels = binaryLevels)
 
 ```
 
+<!--
 With this code we load the data into a dataframe and set the field types
 to their correct type and factor levels.
+-->
 
 ```{r}
 #| code-summary: "Code: Create summary"
+#| echo: false
 
 #create gtsummary
 smr <-
@@ -516,14 +532,17 @@ for (field in smr$meta_data$df_stats) {
 
 ```
 
+<!--
 With this code we create the summary of the data using the GT Summary
 package, and then use that data to create charts to display the data
 visualizations shown on the next slide.
+-->
 
 ## Data Visualization Charts
 
 ```{r}
 #| code-summary: "Code: Output summary"
+#| echo: false
 
 #print charts in grid
 grid.arrange(grobs=binary_chart_list, ncol=4)
@@ -536,6 +555,7 @@ Summary of the binary variables in the data set.
 
 ```{r}
 #| code-summary: "Code: Output summary"
+#| echo: false
 
 grid.arrange(grobs=multiple_chart_list, ncol=2)
 
@@ -543,24 +563,6 @@ grid.arrange(grobs=multiple_chart_list, ncol=2)
 
 Summary of the multi-valued variables in the data set.
 
-````{=html}
-<!--
-Below is a sample of a single decision tree.
-
-```{r}
-#| code-summary: "Code: Single Decision Tree Example"
-
-# #create this function variable so it is easier to change it as needed
-# model_fn <- Diabetes_binary ~ HighBP + GenHlth + BMI + HighChol
-# 
-# #create model.  note rpart.control cp value needed for full dataset due to class imbalance
-# dt_model <- rpart(model_fn, data = df, method="class",
-#                   control = rpart.control(minsplit=2, cp=0.0000001, maxdepth = 4))
-# rpart.plot(dt_model, box.palette = "Greens", main="Decision Tree", extra = 106)
-
-```
--->
-````
 
 ## Statistical Modeling
 
@@ -569,11 +571,11 @@ Below is a sample of a single decision tree.
 -   Our steps taken:
     -   Analyze variable importance measures to find the most important
         questions in the Behavioral Risk Factor Surveillance System
-        (BRFSS) questionnaire.
-    -   Create a version of the BRFSS questionnaire with less questions
+        (BRFSS) survey.
+    -   Create a version of the BRFSS survey with less questions.
     -   Gauge accuracy of the reduced version of the BRFSS
-        questionnaire, with the idea that a reduced version will
-        increase future participation in the survey.
+        survey, with the idea that a reduced version will
+        increase future participation.
     -   Our initial random forest analysis will use default parameters.
     -   We will use the **ranger** package in R to implement a fast
         version of random forest.
@@ -582,10 +584,10 @@ Below is a sample of a single decision tree.
     -   We output the variable importance using Gini impurity as the
         importance measure.
 
-## Random Forest Defaults
+## Random Forest Default Parameters
 
 ```{r, cache=TRUE}
-#| code-summary: "Code: Random Forest Defaults"
+#| code-summary: "Code: Random Forest With Default Parameters"
 
 #create actual random forest with full list of variables for analysis
 diabetes.forest <- ranger(Diabetes_binary ~ ., data=df, importance = 'impurity')
@@ -593,8 +595,8 @@ print(diabetes.forest)
 
 ```
 
--   Our estimated prediction error is around 25.6%, for an accuracy rate
-    of around 74.4%.
+  -   Our estimated prediction error using the default parameters is around 
+    25.6%, for an accuracy rate of around 74.4%.
 -   We can check the variable importance to determine the most important
     variables contributing to the classification.
 
@@ -610,10 +612,10 @@ print(diabetes.forest)
 -->
 ````
 
-## Importance Measures
+## Importance Measures Result
 
 ```{r}
-#| code-summary: "Code: Importance Measures"
+#| code-summary: "Code: Importance Measures Chart"
 
 #create vi object for variable importance graph
 vi_values <- vi(diabetes.forest)
@@ -623,7 +625,7 @@ vip(vi_values, aesthetics = list(fill="#2980B9"))
 ```
 
 -   The most important variables impacting Diabetes were found to be
-    BMI, General Health, High Blood Pressure, and Age.
+    BMI, General Health, Age, and High Blood Pressure.
 
 ## Hyperparameter Tuning
 
@@ -664,9 +666,9 @@ plot(rf_gridsearch)
 
 -   This plot shows that the optimal value for number of variables to
     split at each node peaks at 3 and declines from there.
--   Using this value should yield the optimal accuracy rate.
--   The number of trees was tuned manually and it was found that about
-    2000 trees is optimal.
+-   The number of trees was tuned manually by testing with 500 to 3000 trees 
+    in increments of 500. It was found that about 2000 trees is optimal for 
+    this data set.
 
 ## Random Forest Tuned
 
@@ -683,25 +685,6 @@ print(diabetes.forest)
 -   The tuned model has a prediction error of 25.1% for a higher
     accuracy of 74.9%.
 
-## Questionnaire Reduction
-
--   The goal is to reduce the number of questions needed on the
-    Behavioral Risk Factor Surveillance System (BRFSS) and maintain high
-    accuracy.
--   We select the top 4 questions and run the classification to gauge
-    accuracy.
-
-```{r, cache=TRUE}
-#| code-summary: "Code: Reduced Parameters"
-
-#use reduced list of parameters found by assessing variable importance
-diabetes.forest.reduced <- ranger(Diabetes_binary ~ BMI + GenHlth + HighBP + Age, data=df)
-print(diabetes.forest.reduced)
-
-```
-
--   This result shows a questionnaire with 4 questions still has 74.0%
-    accuracy (prediction error 26.0%). Amazing!
 
 ## Random Forest Prediction
 
@@ -733,11 +716,11 @@ preds <- predict(diabetes.forest, data = df.test, seed=randseed)
 ## Confusion Matrix
 
 -   Accuracy can be assessed using a confusion matrix.
--   A confusion matrix calculates True Positive, True Negative, False
-    Positive, and False Negative values.
+-   A confusion matrix calculates True Positive, False
+    Positive, True Negative, and False Negative values.
 -   True Positive (TP) is a sample classified as positive which is in
-    fact positive, True Negative (TN) a negative which indeed is
-    negative, False Positive (FP) a positive when it is in fact
+    fact positive, False Positive (FP) a positive when it is in fact
+    negative, True Negative (TN) a negative which indeed is
     negative, and False Negative (FN) a negative when it is in fact
     positive.
 -   From these values, the accuracy can be obtained as:
@@ -752,11 +735,13 @@ preds <- predict(diabetes.forest, data = df.test, seed=randseed)
 
 ## Show Predictive Accuracy
 
+<!--
 -   Now we compare the prediction with the true value to determine the
     model accuracy.
+-->
 
 ```{r}
-#| code-summary: "Code: Confusion Matrix Plot"
+#| code-summary: "Code: Confusion Matrix Pie Chart"
 #| layout: [[60,40]]
 
 #create confusion matrix of prediction vs actual on test set
@@ -791,13 +776,44 @@ PieChart(x = cfm.Label, y = cfm.Percent, hole = 0, values = "%", data = cf,
 ```
 
 -   Our model's accuracy is approximately 75% as illustrated in the pie chart.
+-   True Positive (TP) and True Negative (TN) account for 75% of the model.
+-   False Positive (FP) and False Negative (FN) account for 25% of the model.
+
+## Questionnaire Reduction
+
+-   The goal is to reduce the number of questions needed on the
+    Behavioral Risk Factor Surveillance System (BRFSS) and maintain high
+    accuracy.
+-   We select the top 4 questions and run the classification to gauge
+    accuracy.
+
+```{r, cache=TRUE}
+#| code-summary: "Code: Reduced Parameters"
+
+#use reduced list of parameters found by assessing variable importance
+diabetes.forest.reduced <- ranger(Diabetes_binary ~ BMI + GenHlth + HighBP + Age, data=df)
+print(diabetes.forest.reduced)
+
+```
+
+-   This result shows a survey with 4 questions still has 74.0%
+    accuracy (prediction error 26.0%). Amazing!
+
 
 ## Conclusion
 
 -   We were able to use the Random Forest method to classify the data
     into Diabetic and Non-Diabetic with approximately 74.9% accuracy
     (prediction error 25.1%).
--   Additionally, we showed how to use the random forest classifier to
+-   We demonstrated hyperparameter tuning for Random Forest for the mtry
+    parameter and manually tuned the number of trees.
+-   We also demonstrated using random forest for prediction of unseen
+    data and showed the method of gauging prediction accuracy comparing
+    the true value with the predicted value on the unseen test data.
+
+## Conclusion (continued)
+
+-   We showed how to use the random forest classifier to
     rank the importance measures of the variables to determine the most
     important variables contributing to the classification.
 -   We were able to select the top variables for a reduced version of
@@ -806,16 +822,10 @@ PieChart(x = cfm.Label, y = cfm.Percent, hole = 0, values = "%", data = cf,
 -   The classifier with the reduced number of questions is able to
     classify the data with approximately 74.0% accuracy (prediction
     error 26.0%).
-
-## Conclusion (continued)
-
--   We demonstrated hyperparameter tuning for Random Forest for the mtry
-    parameter and manually tuned the number of trees.
--   We also demonstrated using random forest for prediction of unseen
-    data and showed the method of gauging prediction accuracy comparing
-    the true value with the predicted value on the unseen test data.
 -   We appreciate this opportunity to provide an introduction to the
     purpose and usage of the random forest method for those who are not
     familiar with it.
+    
+### Questions?
 
 ## References
