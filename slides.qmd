@@ -188,18 +188,21 @@ editor:
     biology and medicine. In applications such as these, there is
     usually a relationship between response and predictor variables and
     sometimes there are strong correlations between predictors.
+<!--
 -   Random forests have helped with prediction, ranking of influential
     variables, and identifying variables with interactions.
+-->
 -   Other studies have found good performance in areas such as
     predicting customer churn, fraud detection, identifying bacteria and
     fish, and identifying eye disease [@Verikas2011].
-
-## Applications
-
 -   Determining risk factors for diabetes, a disease affecting 425
     million adults where chronic high blood sugar has effects such as
     damaging blood vessels, organs, nerves, and other complications
     [@Lin2019].
+
+<!--
+## Applications
+
 -   Prediction of students' major and completion status, finding they
     were able to predict program completion with 78.84% accuracy and
     predict choice of major with 47.41% accuracy [@Beaulac2019].
@@ -209,6 +212,7 @@ editor:
     data with four data points and 60 trees, yielding 90% accuracy for
     the classification of neuroimage data of AD vs HC (healthy
     controls).
+-->
 
 ## Methods
 
