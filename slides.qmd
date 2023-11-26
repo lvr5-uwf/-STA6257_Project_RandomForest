@@ -32,12 +32,12 @@ editor:
 -   Random forest improves on the decision tree method for
     classification (predicting a class label) and regression (predicting
     a continuous value).
--   The method is attributed to Dr. Leo Brieman of the University of
+-   The method is attributed to Dr. Leo Breiman of the University of
     California at Berkeley.
 
 ## What We Will Show
 
--   We will use a health questionnaire dataset to predict diabetes
+-   We will use a health questionnaire dataset to predict diabetes.
 -   We seek to reduce the number of survey questions (and variables) and
     focus on the most influential predictors of diabetes.
 -   We accomplish this by calculating the variable importance using the
@@ -53,8 +53,8 @@ editor:
 -   Decision trees divide data by fields, creating subsets called nodes.
     Cutoffs are applied based on statistics [@deVille2013].
 -   Improvements to decision tree classifiers reduce bias and variance.
-    -   Resampling training data and using multiple trees
-    -   Bootstrap aggregating (bagging) and AdaBoost
+    -   Resampling training data and using multiple trees.
+    -   Bootstrap aggregating (bagging) and AdaBoost (adaptive boosting).
     -   Multi-tree solutions: voting over multiple trees and using split
         methods of alternative splits and oblique splits [@Breiman1996].
 -   Random Forest is an ensemble method (uses several methods to solve a
@@ -90,11 +90,7 @@ editor:
     trees that do not contain the class label, and it is a good estimate
     of overall error rate.
 -   Random forests can have similar error rates as another machine
-    learning algorithm, AdaBoost.
--   AdaBoost is "equivalent to fitting an additive logistic regression
-    model by a stage-wise estimation procedure," and successful because
-    of imparting diversity to the ensemble, but with a tradeoff in
-    accuracy [@Rodriguez2006].
+    learning algorithm, AdaBoost. AdaBoost is "equivalent to fitting an additive logistic regression model by a stage-wise estimation procedure," and successful because of imparting diversity to the ensemble, but with a tradeoff in accuracy [@Rodriguez2006].
 
 ## Improvements and Expansions to Random Forest
 
