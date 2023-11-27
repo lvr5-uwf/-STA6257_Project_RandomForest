@@ -134,7 +134,6 @@ editor:
 -   Another improvement is the fact that each tree has unique features
     due to the PCA algorithm being applied on each tree, so the trees
     are less correlated, which has been shown to increase accuracy.
--   Next we will discuss applications of Random Forest.
 
 
 ```{=html}
@@ -176,26 +175,19 @@ editor:
 
 ## Applications
 
--   As the size of datasets increases (defined by the number of
-    variables exceeding the number of observations), the performance of
-    statistical methods decline and machine learning methods are
-    preferred [@Verikas2011].
--   Random forests have been used in several such studies related to
-    biology and medicine. In applications such as these, there is
-    usually a relationship between response and predictor variables and
-    sometimes there are strong correlations between predictors.
+-   As the size of datasets increases (defined by the number of variables exceeding the number of observations), the performance of statistical methods decline and machine learning methods are preferred [@Verikas2011].
+-   Random forests have been used in several studies related to biology and medicine, where there is usually a relationship between response and predictor variables and sometimes strong correlations between predictors.
 <!--
 -   Random forests have helped with prediction, ranking of influential
     variables, and identifying variables with interactions.
 -->
--   Other studies have found good performance in areas such as
-    predicting customer churn, fraud detection, identifying bacteria and
-    fish, and identifying eye disease [@Verikas2011].
--   Determining risk factors for diabetes, a disease affecting 425
-    million adults where chronic high blood sugar has effects such as
-    damaging blood vessels, organs, nerves, and other complications
-    [@Lin2019].
+-   Other studies have found good performance in areas such as predicting customer churn, fraud detection, identifying bacteria and fish, and identifying eye disease [@Verikas2011]. 
 
+## Applications
+
+-   Random forest has been used to predict students' major and completion status [@Beaulac2019], and predict progression from MCI (mild cognitive impairment) to AD (Alzheimer's disease) [@Moore2019].
+-   An additional study addressed determining risk factors for diabetes, a disease affecting 425 million adults where chronic high blood sugar has effects such as damaging blood vessels, organs, nerves, and other complications [@Lin2019].
+-   Next we will discuss the methodology of random forest.
 <!--
 ## Applications
 
