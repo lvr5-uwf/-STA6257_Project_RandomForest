@@ -204,21 +204,18 @@ editor:
 
 ## Methods
 
--   The general methodology of the Random Forest model is to create a
-    number of decision trees that use a random subset of features for
+-   Create a number of decision trees that use a random subset of features for
     the prediction.
--   For any given row, the data values are run through all of the
-    decision trees that were created.
--   The value for the class label is predicted based on the prediction
-    by the majority of the trees [@Breiman2001].
+-   The data values are run through all of the
+    decision trees that were created for each row.
+-   The value for the class label is predicted based on the majority prediction of the trees [@Breiman2001].
 -   The randomness of the features allows some decision tree models to
     be created with weaker predictive features, which increases model
     variability.
 -   Model variability is a key component for greater predictive
     accuracy, allowing weaker variables to still have some effect
     [@Dietterich2000].
--   The criteria for splitting is generally to minimize Gini Impurity
-    which is a measure of the homogeneity in the nodes.
+-   The criteria for splitting is generally to minimize Gini Impurity.
     -   Low Gini Impurity implies that the items are more homogeneous
         (of the same class label).
 
@@ -239,11 +236,11 @@ $$
 
 ![](RandomForestSample.png)
 
-This decision tree shows a split on the HighBP field, with 44% having Yes on the left, and 56% having No on the right, and so on.  The lowest level shows the classification.
+This decision tree shows a split on the HighBP field, with 44% having Yes on the left, and 56% having No on the right.  The lowest level shows the classification.
 
 ## Random Forest Algorithm
 
-The algorithm for random Random Forest is as follows:
+The algorithm for random Random Forest is:
 
 ```{=html}
 <ol style="font-style: italic; margin: auto 10%; background-color: rgba(233,236,239,.35);">
@@ -281,7 +278,7 @@ Vote or aggregate on the output of each tree in the forest.
     does not necessarily have to be split into test and train datasets
     as in other machine learning models [@Breiman2001].
 -   Regardless of that, splitting into test and train datasets continues
-    to be a best practice, especially if comparing to or using the
+    to be a best practice, especially if comparing/using the
     random forest method with other machine learning methods.
 
 ```{=html}
@@ -291,7 +288,7 @@ decision parameters used to group items into classes. -->
 ```
 ## Sample Random Forest Code in R
 
-Sample code for creating a Random Forest in R:
+Sample code for Random Forest in R:
 <!--copied background color from rendered page-->
 
 ```{=html}
@@ -323,22 +320,21 @@ Data Source:
 <a href="https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset" target="_blank">Diabetes
 Health Indicators Dataset (Kaggle)</a>
 
--   This dataset focuses on diabetes, a chronic health condition
+-   This data set focuses on diabetes, a chronic health condition
     affecting millions of people worldwide that can cause serious
     complications and lower quality of life.
 -   There is a need to predict an individual's risk of developing
-    diabetes in the hopes that preventive measures can be taken to
-    improve outcomes [@DiabetesDataset].
--   This dataset is a subset of data from the The Behavioral Risk Factor
+    diabetes for preventative measures to improve outcomes [@DiabetesDataset].
+-   This data is a subset of data from the The Behavioral Risk Factor
     Surveillance System (BRFSS), a survey conducted by the CDC to
     examine Americans' responses in the areas of health behaviors and
     conditions.
-    -   The diabetes dataset includes 21 feature variables and 70,692
+    -   The data includes 21 feature variables and 70,692
         survey responses.
     -   The response variable is whether or not an individual has
         diabetes (indicated by 0 for no or 1 for pre-diabetes or
         diabetes).
-    -   This dataset has a 50-50 binary split, meaning the data is
+    -   The data has a 50-50 binary split, meaning the data is
         evenly split between having diabetes or not [@DiabetesDataset].
 
 ## Data Set Variables
