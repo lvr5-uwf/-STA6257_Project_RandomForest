@@ -794,7 +794,12 @@ print(diabetes.forest.reduced)
 
 ## Conclusion
 
--   We were able to use the Random Forest method to classify the data
+-   We discussed the origins and background of the Random Forest method, 
+    which stems from uses of multiple decision trees on the same data set 
+    using different sets of variables or fields.
+-   We highlighted some previous applications of Random Forest, and showed
+    the methodology and algorithm.
+-   We were able to use the Random Forest method to classify the test data set
     into Diabetic and Non-Diabetic with approximately 74.9% accuracy
     (prediction error 25.1%).
 -   We demonstrated hyperparameter tuning for Random Forest for the mtry
